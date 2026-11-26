@@ -1666,3 +1666,1305 @@ window.dataArchitectPart2Questions = [
     explanation: "Big Objects or an external database surfaced through external objects can keep older Cases accessible from Salesforce without using standard data storage."
   }
 ];
+
+window.dataArchitectPart3Questions = [
+  {
+    prompt: "An automaker must track local dealers, regional distributors, state distributors and service dealers. Each type has its own attributes, users should only enter that type's attributes, and processes may differ. How should dealers be stored?",
+    options: [
+      { id: "A", text: "Accounts, with a record type per dealer type" },
+      { id: "B", text: "Accounts, with custom list views per dealer type" },
+      { id: "C", text: "Accounts, with a custom picklist for dealer type" },
+      { id: "D", text: "A custom object per dealer type" }
+    ],
+    answers: ["A"],
+    explanation: "Record types give each dealer type its own page layout, picklist values and business process on one object. Views and picklists don't change which fields users see."
+  },
+  {
+    prompt: "What data quality problem could cause this?",
+    options: [
+      { id: "A", text: "Missing phone numbers on Contacts" },
+      { id: "B", text: "Changed phone numbers on Contacts" },
+      { id: "C", text: "Duplicate Contact records" },
+      { id: "D", text: "Duplicate Activity records on a Contact" }
+    ],
+    answers: ["C"],
+    explanation: "If one customer exists as two Contacts, each rep logs calls on a different record and can't see the other's activity."
+  },
+  {
+    prompt: "Advantage of custom metadata types over custom settings",
+    options: [
+      { id: "A", text: "Custom metadata records aren't copied from production to sandbox" },
+      { id: "B", text: "Custom metadata types are available for reporting" },
+      { id: "C", text: "Custom metadata records can be deployed in packages" },
+      { id: "D", text: "Custom metadata records are editable in Apex" }
+    ],
+    answers: ["C"],
+    explanation: "Custom metadata records are metadata, so they deploy with change sets and packages. Custom settings data has to be loaded separately in each org."
+  },
+  {
+    prompt: "Cloud Kicks sends Invoice records to Accounting with missing States and badly formatted Postal Codes. Which two actions improve quality?",
+    options: [
+      { id: "A", text: "Make address fields required on the page layout" },
+      { id: "B", text: "An Apex trigger requiring all fields" },
+      { id: "C", text: "A validation rule using REGEX on Postal Code" },
+      { id: "D", text: "A validation rule using CONTAINS on address fields" }
+    ],
+    answers: ["C", "D"],
+    explanation: "REGEX enforces the postal code format, and a validation rule on address fields can check for valid States. Page-layout requirements only apply in the UI, not to integrations."
+  },
+  {
+    prompt: "UC is migrating from a legacy system and worries about the quality of data entered by users and integrations.",
+    options: [
+      { id: "A", text: "Use picklists and lookups where possible" },
+      { id: "B", text: "Apex to validate formats entered on mobile" },
+      { id: "C", text: "Validation rules and workflows" },
+      { id: "D", text: "Third-party AppExchange tools" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Picklists and lookups limit entries to valid values, and validation rules enforce format and completeness for every entry channel, with no code."
+  },
+  {
+    prompt: "Speeding up a large migration (choose 3)",
+    options: [
+      { id: "A", text: "Time zones of the loading user" },
+      { id: "B", text: "Remove custom indexes on the data being loaded" },
+      { id: "C", text: "Whether the legacy system is still in use" },
+      { id: "D", text: "Defer sharing calculations" },
+      { id: "E", text: "Deactivate approval processes and workflow rules" }
+    ],
+    answers: ["B", "D", "E"],
+    explanation: "Each removes per-record work during the load: index upkeep, sharing recalculation and automation."
+  },
+  {
+    prompt: "License for complaints, white papers and paid support",
+    options: [
+      { id: "A", text: "Lightning Platform Starter" },
+      { id: "B", text: "Service Cloud" },
+      { id: "C", text: "Salesforce" },
+      { id: "D", text: "Sales Cloud" }
+    ],
+    answers: ["B"],
+    explanation: "Cases, Knowledge and Entitlements (paid support) are Service Cloud features."
+  },
+  {
+    prompt: "Loading 1 million B2C consumers",
+    options: [
+      { id: "A", text: "A custom Individual_Consumer__c object" },
+      { id: "B", text: "Accounts only, no Contacts" },
+      { id: "C", text: "One Account and one Contact per consumer" },
+      { id: "D", text: "One Account with all consumers as Contacts" }
+    ],
+    answers: ["D"],
+    explanation: "The site says this avoids unnecessary Accounts. Caution: a million Contacts under one Account causes account data skew, so many guides pick C (or Person Accounts). Check this one."
+  },
+  {
+    prompt: "Reports timing out (choose 2)",
+    options: [
+      { id: "A", text: "Index key fields used in report filters" },
+      { id: "B", text: "Enable Divisions" },
+      { id: "C", text: "One skinny table per report" },
+      { id: "D", text: "Share reports with fewer users" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Indexed filter fields make queries selective, and skinny tables cut joins. Sharing doesn't change speed."
+  },
+  {
+    prompt: "UC has over 10,000 Accounts with near-duplicate names and addresses. What ensures data quality?",
+    options: [
+      { id: "A", text: "Standardize addresses with a service, then merge with a third-party tool by rules" },
+      { id: "B", text: "Report on Accounts with the same first five characters and merge them" },
+      { id: "C", text: "Create matching rules in Salesforce, which mass-merge duplicate Accounts" },
+      { id: "D", text: "Have owners clean addresses, then merge same-address Accounts" }
+    ],
+    answers: ["C"],
+    explanation: "Matching rules find near-duplicates. Caution: Salesforce matching and duplicate rules identify and alert but don't mass-merge, and near-duplicates need standardizing first, so many guides pick A. Check this one."
+  },
+  {
+    prompt: "An audit found that some standard and custom fields holding health records must be encrypted. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Apex Crypto class" },
+      { id: "B", text: "Classic encryption" },
+      { id: "C", text: "Shield Platform Encryption" },
+      { id: "D", text: "Export the data and encrypt it outside Salesforce" }
+    ],
+    answers: ["C"],
+    explanation: "Shield Platform Encryption encrypts data at rest on many standard and custom fields while keeping features working. Classic encryption only covers special custom text fields."
+  },
+  {
+    prompt: "UC built a custom Projects__c object for project details and billable hours. Some finance users need to report on it and adjust utilization, but won't use any sales objects.",
+    options: [
+      { id: "A", text: "Service Cloud" },
+      { id: "B", text: "Sales Cloud" },
+      { id: "C", text: "Lightning Platform Starter" },
+      { id: "D", text: "Lightning Platform Plus" }
+    ],
+    answers: ["D"],
+    explanation: "Platform licenses cover custom objects, reports and dashboards without CRM objects, and Plus allows more custom objects than Starter. Sales or Service Cloud would pay for objects they won't use."
+  },
+  {
+    prompt: "Discount Request is the detail in a master-detail with a custom Product. UC now needs generic discount requests with no Product.",
+    options: [
+      { id: "A", text: "Require a Product on every request" },
+      { id: "B", text: "Create a placeholder Product for generic requests" },
+      { id: "C", text: "Remove the relationship entirely" },
+      { id: "D", text: "Change master-detail to a lookup" }
+    ],
+    answers: ["D"],
+    explanation: "A detail record must always have a master. A lookup can be left blank, so generic requests are allowed while specific ones still link to a Product."
+  },
+  {
+    prompt: "Regulations require access based on record ownership, letting customers request removal of their data, and blocking access from outside the company network (VPN). What should the architect recommend?",
+    options: [
+      { id: "A", text: "Ask Salesforce Support to restrict access to the VPN" },
+      { id: "B", text: "A custom web app inside the VPN" },
+      { id: "C", text: "IP restrictions, sharing settings, and custom Apex for removal requests" },
+      { id: "D", text: "Shield with Event Monitoring" }
+    ],
+    answers: ["C"],
+    explanation: "Login IP ranges limit access to the company network, a private sharing model gives ownership-based access, and custom logic handles deletion requests. Shield doesn't restrict access."
+  },
+  {
+    prompt: "Legacy B2C customers are stored as accounts and contacts. Which object model should be configured?",
+    options: [
+      { id: "A", text: "Person Accounts" },
+      { id: "B", text: "A custom person account object" },
+      { id: "C", text: "Custom account and contact objects" },
+      { id: "D", text: "Standard Account and Contact" }
+    ],
+    answers: ["A"],
+    explanation: "Person Accounts are the standard model for individual consumers, combining Account and Contact in one record."
+  },
+  {
+    prompt: "NTO's contact data is 10 years old and returned mail has risen to 35%. What reduces it?",
+    options: [
+      { id: "A", text: "Use a third-party data source to update contact information" },
+      { id: "B", text: "Email customers asking them to verify their address" },
+      { id: "C", text: "Delete contacts when mail is returned" },
+      { id: "D", text: "Have sales call every customer to verify details" }
+    ],
+    answers: ["A"],
+    explanation: "A third-party data source updates addresses automatically and at scale. The other options are manual or lose data."
+  },
+  {
+    prompt: "15,000 servers report every 10 minutes, kept 5 years; managers need one week in Salesforce.",
+    options: [
+      { id: "A", text: "Data storage limits" },
+      { id: "B", text: "Workflow rule limits" },
+      { id: "C", text: "API request limits" },
+      { id: "D", text: "Web service callout limits" }
+    ],
+    answers: ["A", "C"],
+    explanation: "About 2 million records a week use API calls to load and data storage to keep."
+  },
+  {
+    prompt: "UC's homegrown CRM has many duplicate customers. How should the migration handle this?",
+    options: [
+      { id: "A", text: "Have an intern de-dupe after migration" },
+      { id: "B", text: "Migrate as-is, then use Salesforce de-duplication" },
+      { id: "C", text: "Have users clean the old system first" },
+      { id: "D", text: "Load into a staging database and de-duplicate there" }
+    ],
+    answers: ["D"],
+    explanation: "De-duplicating in staging means only clean data reaches Salesforce, using automated rules instead of manual work."
+  },
+  {
+    prompt: "What makes skinny tables fast (choose 3)",
+    options: [
+      { id: "A", text: "They exclude soft-deleted records" },
+      { id: "B", text: "They avoid resource-heavy joins" },
+      { id: "C", text: "They stay in sync with source tables automatically" },
+      { id: "D", text: "They can include fields from other objects" },
+      { id: "E", text: "They support up to 100 columns" }
+    ],
+    answers: ["A", "B", "C"],
+    explanation: "One object's key fields in a single table, no soft-deleted rows, kept in sync by Salesforce. They can't span objects."
+  },
+  {
+    prompt: "Org B will have a very different data model, and 3 million records must move from Org A within two months.",
+    options: [
+      { id: "A", text: "An ETL tool to orchestrate the migration" },
+      { id: "B", text: "Data Loader export plus Data Import Wizard" },
+      { id: "C", text: "A Bulk API script" },
+      { id: "D", text: "Salesforce CLI" }
+    ],
+    answers: ["A"],
+    explanation: "ETL tools handle mapping and transformation to a new model at high volume with little custom code."
+  },
+  {
+    prompt: "UC has several million US business Accounts with many wrong addresses or defunct businesses.",
+    options: [
+      { id: "A", text: "Ask each business to update its address" },
+      { id: "B", text: "A team that checks Accounts by web search and phone" },
+      { id: "C", text: "Integrate a third-party address validation and enrichment service" },
+      { id: "D", text: "Data.com Clean with the D&B database" }
+    ],
+    answers: ["C", "D"],
+    explanation: "Both check records against a trusted outside source automatically, so they scale to millions."
+  },
+  {
+    prompt: "The head of sales wants key performance figures so managers can take corrective action. Which reporting option fits?",
+    options: [
+      { id: "A", text: "Case SLA performance report" },
+      { id: "B", text: "Sales KPI dashboard" },
+      { id: "C", text: "Opportunity analytic snapshot" },
+      { id: "D", text: "Lead conversion rate report" }
+    ],
+    answers: ["B"],
+    explanation: "A KPI dashboard shows the key sales metrics together at a glance. The other options cover one narrow metric or service data."
+  },
+  {
+    prompt: "Reps create duplicate Accounts, Contacts and Leads. UC wants to warn users immediately and report on duplicates.",
+    options: [
+      { id: "A", text: "After-insert/update triggers with custom matching" },
+      { id: "B", text: "Duplicate rules with standard matching rules, action Report and Alert on create and edit" },
+      { id: "C", text: "Duplicate rules with standard matching rules, action Block" },
+      { id: "D", text: "Before-insert/update triggers with custom matching" }
+    ],
+    answers: ["B"],
+    explanation: "\"Alert\" prompts users about possible duplicates, and \"Report\" logs them in Duplicate Record Sets for reporting. It's declarative, so it can start right away. Block wouldn't produce the report."
+  },
+  {
+    prompt: "Extracting 100 million records for an EDW",
+    options: [
+      { id: "A", text: "A third-party AppExchange tool" },
+      { id: "B", text: "Successive REST API queries" },
+      { id: "C", text: "PK Chunking with the Bulk API" },
+      { id: "D", text: "Bulk API in parallel mode" }
+    ],
+    answers: ["C"],
+    explanation: "PK Chunking splits the huge query into ID ranges processed as separate Bulk API batches, avoiding timeouts."
+  },
+  {
+    prompt: "NTO's loyalty program tracks every item bought (100 million records a month), with levels based on the last 12 months of spending. Support wants a summary of recent transactions and reward levels in Salesforce.",
+    options: [
+      { id: "A", text: "A custom object loaded nightly from POS" },
+      { id: "B", text: "External data store, shown via Salesforce Connect external objects" },
+      { id: "C", text: "A button opening the POS system" },
+      { id: "D", text: "A custom big object loaded nightly, shown on the Contact" }
+    ],
+    answers: ["D"],
+    explanation: "Big objects are built for this volume on-platform and can be shown on records with custom components. A custom object can't hold 100 million records a month."
+  },
+  {
+    prompt: "Archive to remove old data and improve performance",
+    options: [
+      { id: "A", text: "Archive location plus scheduled nightly batch jobs to move and purge aged data" },
+      { id: "B", text: "Archive location plus time-based workflow" },
+      { id: "C", text: "A formula flag plus report export to SharePoint" },
+      { id: "D", text: "A Full Copy sandbox as the archive" }
+    ],
+    answers: ["A"],
+    explanation: "Batch jobs can move and then delete aged data in bulk. Workflow can't move data out, and an export doesn't purge."
+  },
+  {
+    prompt: "NTO backs up weekly to an EDW and wants daily backups with restore capability.",
+    options: [
+      { id: "A", text: "An AppExchange backup and restore package" },
+      { id: "B", text: "ETL backup and restore from the EDW" },
+      { id: "C", text: "Bulk API daily extract plus REST API restore" },
+      { id: "D", text: "Switch to daily backups and build a custom restore" }
+    ],
+    answers: ["A"],
+    explanation: "Backup packages handle daily backups and, more importantly, restoring with relationships intact. Custom restore logic is hard to get right."
+  },
+  {
+    prompt: "Minimizing duplicates when merging two legacy systems (choose 2)",
+    options: [
+      { id: "A", text: "A workflow to check and prevent duplicates" },
+      { id: "B", text: "Clean data before importing" },
+      { id: "C", text: "Salesforce matching and duplicate rules" },
+      { id: "D", text: "Import the data concurrently" }
+    ],
+    answers: ["B", "C"],
+    explanation: "Cleaning before import removes existing duplicates, and matching and duplicate rules stop new ones. Workflow can't detect duplicates."
+  },
+  {
+    prompt: "Retrieving org metadata for backup",
+    options: [
+      { id: "A", text: "Metadata API" },
+      { id: "B", text: "Tooling API" },
+      { id: "C", text: "Bulk API in serial mode" },
+      { id: "D", text: "SOAP API" }
+    ],
+    answers: ["A"],
+    explanation: "The Metadata API retrieves and deploys an org's configuration (objects, fields, code, layouts). The other APIs work with data or single dev components."
+  },
+  {
+    prompt: "A telecom creates a household as an Account with household members as Contacts, and businesses as Accounts. Some people have both home and business services. How do you get one view of each person without duplicate records?",
+    options: [
+      { id: "A", text: "Contacts related to both business and residential Accounts with Account Contact Relationships" },
+      { id: "B", text: "Person Accounts related with Account Contact Relationships" },
+      { id: "C", text: "Individual objects related to Accounts" },
+      { id: "D", text: "Residence Accounts with Parent Account pointing to the business" }
+    ],
+    answers: ["A"],
+    explanation: "Contacts to Multiple Accounts lets one Contact relate to many Accounts, so the person exists once but appears under both home and business."
+  },
+  {
+    prompt: "UC uses classic encryption on custom fields and weekly exports as backup; exports show encrypted values. How can decrypted values be exported?",
+    options: [
+      { id: "A", text: "Give a standard profile for the migration user View Encrypted Data" },
+      { id: "B", text: "Copy encrypted values into another field and export that" },
+      { id: "C", text: "Decrypt with Apex before exporting" },
+      { id: "D", text: "Give a custom profile for the migration user View Encrypted Data" }
+    ],
+    answers: ["B"],
+    explanation: "The site says classic encryption won't export decrypted values, so copy them to a plain field. Caution: copying defeats the encryption, and a user with View Encrypted Data (on a custom profile, D) sees unmasked values. The same question in Part 2 was marked A. Many guides pick D. Check this one."
+  },
+  {
+    prompt: "UC uses MDM with a central system of truth, customer data must be accurate everywhere at all times, and Salesforce is the system of record.",
+    options: [
+      { id: "A", text: "Nightly batch to the system of truth" },
+      { id: "B", text: "Nightly batch from Salesforce to each system" },
+      { id: "C", text: "Real-time changes from Salesforce to the system of truth" },
+      { id: "D", text: "Each system subscribes to Salesforce Change Data Capture" }
+    ],
+    answers: ["D"],
+    explanation: "Change Data Capture publishes every change in near real time, and each system subscribes to it, so all stay current. Nightly batches aren't \"at all times.\""
+  },
+  {
+    prompt: "Ensuring Leads have company profile and location data",
+    options: [
+      { id: "A", text: "Salespeople look it up" },
+      { id: "B", text: "Reports on missing data" },
+      { id: "C", text: "External data providers fill it in" },
+      { id: "D", text: "Export for another team to fill in" }
+    ],
+    answers: ["C"],
+    explanation: "Data providers enrich records automatically and at scale."
+  },
+  {
+    prompt: "A health care provider tracks payment providers (organizations that pay), doctors (who build care plans for many patients and need patient access) and patients (individuals).",
+    options: [
+      { id: "A", text: "Patients as Contacts, payers as Accounts, doctors as Accounts" },
+      { id: "B", text: "Patients as Person Accounts, payers as Accounts, doctors as Contacts" },
+      { id: "C", text: "Patients as Person Accounts, payers as Accounts, doctors as Person Accounts" },
+      { id: "D", text: "Patients as Accounts, payers as Accounts, doctors as Person Accounts" }
+    ],
+    answers: ["C"],
+    explanation: "Payers are organizations (business Accounts). Patients and doctors are individuals in their own right, not employees of a payer, so both fit Person Accounts."
+  },
+  {
+    prompt: "The query `SELECT Id, Description, Subject FROM Task WHERE WhatId != NULL` times out.",
+    options: [
+      { id: "A", text: "Remove Description from the fields" },
+      { id: "B", text: "Use SOSL" },
+      { id: "C", text: "Add LIMIT 100" },
+      { id: "D", text: "Filter on a specific, defined value" }
+    ],
+    answers: ["D"],
+    explanation: "Filters on NULL (or not NULL) usually can't use an index, causing a full scan. Filtering on a specific value makes the query selective."
+  },
+  {
+    prompt: "Users need current and historical temperature and humidity for each container.",
+    options: [
+      { id: "A", text: "Fields on Container, overwritten with each reading" },
+      { id: "B", text: "A Container Reading object (master-detail to Container) per reading" },
+      { id: "C", text: "A Lightning component showing the latest reading plus warehouse history" },
+      { id: "D", text: "A Container Reading object (master-detail to Container) per reading, plus an hourly archiving process" }
+    ],
+    answers: ["D"],
+    explanation: "A child object keeps history, and archiving controls volume (50,000 containers \u00d7 144 readings a day is over 7 million records daily). A loses history and B grows without limit."
+  },
+  {
+    prompt: "Members of an enterprise data governance council (choose 2)",
+    options: [
+      { id: "A", text: "Analytics/BI Owners" },
+      { id: "B", text: "Data Domain Stewards" },
+      { id: "C", text: "Salesforce Administrators" },
+      { id: "D", text: "Operational Data Users" }
+    ],
+    answers: ["A", "B"],
+    explanation: "BI owners define reporting needs and metrics; domain stewards set and enforce quality rules for their domains. Admins and everyday users carry out decisions rather than make them."
+  },
+  {
+    prompt: "Data quality for web forms creating Leads via REST (choose 2)",
+    options: [
+      { id: "A", text: "Client-side validation of phone and email formats" },
+      { id: "B", text: "Picklists instead of free text where possible" },
+      { id: "C", text: "Make sure visitors use HTTPS" },
+      { id: "D", text: "Cookies to track multiple submissions" }
+    ],
+    answers: ["A", "B"],
+    explanation: "Format checks and fixed choices stop bad values before they reach Salesforce. HTTPS is about security, not quality."
+  },
+  {
+    prompt: "MDM says Salesforce is the system of record for Account, Contact and Opportunity, but a new Opportunity engagement system holds valuable data that may conflict.",
+    options: [
+      { id: "A", text: "Salesforce always wins, per the MDM strategy" },
+      { id: "B", text: "The most recently updated record wins" },
+      { id: "C", text: "Make the new system the record for Opportunities" },
+      { id: "D", text: "Bring stakeholders together to agree the data strategy going forward" }
+    ],
+    answers: ["D"],
+    explanation: "New valuable data may change which system should own which fields. That's a business decision, so stakeholders must revisit the strategy rather than apply a blanket rule."
+  },
+  {
+    prompt: "Informatica export of 40 million Accounts failing on a full table scan",
+    options: [
+      { id: "A", text: "Header for export in parallel" },
+      { id: "B", text: "Header Sforce-Enable-PKChunking" },
+      { id: "C", text: "Add standard indexed fields to the query" },
+      { id: "D", text: "LIMIT with a batch size of 10,000" }
+    ],
+    answers: ["B"],
+    explanation: "The PK Chunking header makes the Bulk API split the extract into ID ranges, so no single query scans the whole table."
+  },
+  {
+    prompt: "Same scenario as Q81, with the choices in a different order.",
+    options: [
+      { id: "A", text: "Keep a data dictionary with each field's justification" },
+      { id: "B", text: "Review the Setup Audit Trail" },
+      { id: "C", text: "Put the business purpose in each field's Description" },
+      { id: "D", text: "Store metadata in source control" }
+    ],
+    answers: ["C", "D"],
+    explanation: "Field descriptions record why each field exists, and source control keeps a history of changes linked to requirements. The audit trail shows what changed, not why."
+  },
+  {
+    prompt: "Product hierarchy on the standard Product object",
+    options: [
+      { id: "A", text: "Custom lookup on Product to the child record" },
+      { id: "B", text: "Custom lookup on Product to the parent record" },
+      { id: "C", text: "Custom master-detail on Product to the child record" },
+      { id: "D", text: "Apex trigger syncing Product Family" }
+    ],
+    answers: ["B"],
+    explanation: "A self-lookup to the parent lets each product point up the tree, supporting any depth. A record can have many children, so pointing to a child doesn't work."
+  },
+  {
+    prompt: "UC needs who changed each of ten Contact fields, when, and the old and new values, reportable for the past 3 months.",
+    options: [
+      { id: "A", text: "Workflow field updates copying old values into ten new fields" },
+      { id: "B", text: "An after insert/update trigger storing old values in a custom object" },
+      { id: "C", text: "Field history tracking on the ten fields, with Contact History reports" },
+      { id: "D", text: "A daily scheduled report emailed to the admin" }
+    ],
+    answers: ["B", "C"],
+    explanation: "Standard history tracking covers up to 20 fields and keeps 18 months, with reports. A trigger writing to a custom object is the custom alternative. Workflow can't capture who and when properly, and a daily report doesn't track changes."
+  },
+  {
+    prompt: "Monitoring and measuring data quality (choose 2)",
+    options: [
+      { id: "A", text: "Custom objects and fields to flag issues" },
+      { id: "B", text: "Data quality reports and dashboards" },
+      { id: "C", text: "Install a data quality analysis dashboard app" },
+      { id: "D", text: "Export and check completeness outside Salesforce" }
+    ],
+    answers: ["B", "C"],
+    explanation: "Reports and dashboards (including free AppExchange data quality dashboards) measure completeness and track it over time inside Salesforce."
+  },
+  {
+    prompt: "Extra guidance when users fill in a standard field",
+    options: [
+      { id: "A", text: "Custom help text in the field properties" },
+      { id: "B", text: "A custom page with help text" },
+      { id: "C", text: "Help text in the default value" },
+      { id: "D", text: "A label field next to the field" }
+    ],
+    answers: ["A"],
+    explanation: "Field-level help text shows as a hover icon right next to the field, including on standard fields."
+  },
+  {
+    prompt: "Storing latitude and longitude",
+    options: [
+      { id: "A", text: "Formula fields with geolocation functions" },
+      { id: "B", text: "Separate latitude and longitude fields" },
+      { id: "C", text: "A geolocation custom field" },
+      { id: "D", text: "An AppExchange package" }
+    ],
+    answers: ["C"],
+    explanation: "A geolocation field holds both values and works with distance functions."
+  },
+  {
+    prompt: "1-day SLA for data loss from bad or malicious updates",
+    options: [
+      { id: "A", text: "Daily extract to on-premise systems" },
+      { id: "B", text: "Weekly Export of key objects to spreadsheets" },
+      { id: "C", text: "Shadow custom objects copying every change" },
+      { id: "D", text: "A third-party AppExchange backup app (e.g. OwnBackup, Spanning)" }
+    ],
+    answers: ["D"],
+    explanation: "Backup apps run daily (or more often) and, crucially, can restore records and relationships quickly. An extract alone gives no restore."
+  },
+  {
+    prompt: "A new DR policy requires a continuity plan separate from the cloud provider's own recovery.",
+    options: [
+      { id: "A", text: "A third-party tool that extracts data and metadata to an external protected system" },
+      { id: "B", text: "Weekly exports stored as flat files" },
+      { id: "C", text: "ETL to an on-premise archive" },
+      { id: "D", text: "A custom nightly batch extracting changes" }
+    ],
+    answers: ["A"],
+    explanation: "Dedicated backup tools capture both data and metadata frequently and can restore them. Weekly exports miss metadata and are too infrequent; custom jobs are hard to restore from."
+  },
+  {
+    prompt: "Documenting a multi-system data architecture (choose 2)",
+    options: [
+      { id: "A", text: "User stories" },
+      { id: "B", text: "Data model" },
+      { id: "C", text: "Integration specification" },
+      { id: "D", text: "Non-functional requirements" }
+    ],
+    answers: ["B", "C"],
+    explanation: "The data model shows the entities and relationships, and the integration spec shows how data moves between systems. Those two describe the data architecture."
+  },
+  {
+    prompt: "Project is Private with roll-up summary fields, and large volumes of time entries load regularly. (The original refers to an image not shown.)",
+    options: [
+      { id: "A", text: "Load using External IDs to link parents" },
+      { id: "B", text: "Workflow instead of roll-ups" },
+      { id: "C", text: "Triggers instead of roll-ups" },
+      { id: "D", text: "Load after deferring sharing calculations" }
+    ],
+    answers: ["D"],
+    explanation: "Deferring sharing calculations avoids recalculating on every insert and reduces locking, then recalculates once at the end."
+  },
+  {
+    prompt: "Preventing race conditions on the same record",
+    options: [
+      { id: "A", text: "Add FOR UPDATE to SOQL queries" },
+      { id: "B", text: "Disable classes or triggers that might touch the same record" },
+      { id: "C", text: "Move logic to processes and flows" },
+      { id: "D", text: "Optimize classes and triggers for CPU" }
+    ],
+    answers: ["A"],
+    explanation: "SELECT ... FOR UPDATE locks the returned records until the transaction ends, so nothing else can change them meanwhile."
+  },
+  {
+    prompt: "NTO's OMS holds 2 million+ historical orders. Sales wants to see related orders without storing millions of records in Salesforce.",
+    options: [
+      { id: "A", text: "A second admin user for authenticating to the external source" },
+      { id: "B", text: "Develop an object relationship strategy" },
+      { id: "C", text: "Identify which external tables become external objects" },
+      { id: "D", text: "Check whether the source is reachable through an OData endpoint" },
+      { id: "E", text: "Configure middleware to poll the external tables" }
+    ],
+    answers: ["B", "C", "D"],
+    explanation: "You need to know how external objects will relate to Salesforce records, which tables to expose, and whether an OData endpoint exists (or a custom adapter is needed). Polling middleware defeats the purpose of virtual data."
+  },
+  {
+    prompt: "All of Company S's data, including 6 million Cases, moves into Company T's org, and load time must be optimized.",
+    options: [
+      { id: "A", text: "Pre-process, then Data Loader (SOAP API) upsert with zip compression" },
+      { id: "B", text: "Salesforce-to-Salesforce" },
+      { id: "C", text: "Load in multiple sets with Bulk API parallel processing" },
+      { id: "D", text: "An \"Org Migration Tool\" in Setup" }
+    ],
+    answers: ["A"],
+    explanation: "The site credits pre-processing plus compression. Caution: for millions of records the Bulk API in parallel (C) is normally much faster than the SOAP API, and many guides pick C. Check this one."
+  },
+  {
+    prompt: "Reps' Amount changes overwritten by the pricing system",
+    options: [
+      { id: "A", text: "Custom amount field for reps, separate from PPS" },
+      { id: "B", text: "Custom amount field for PPS, separate from reps" },
+      { id: "C", text: "Make Amount read-only for sales users with field-level security" },
+      { id: "D", text: "PPS updates Amount only when blank" }
+    ],
+    answers: ["C"],
+    explanation: "PPS is the trusted source and forecasts use Amount, so reps shouldn't edit it."
+  },
+  {
+    prompt: "Reporting on invoice attachments by Type",
+    options: [
+      { id: "A", text: "New values on Attachment's ContentType picklist" },
+      { id: "B", text: "A ContentType picklist on the Attachment layout" },
+      { id: "C", text: "A custom Type picklist on Attachment" },
+      { id: "D", text: "A custom object related to Invoice with a Type picklist" }
+    ],
+    answers: ["D"],
+    explanation: "Attachment can't take custom fields. A related custom object holds the Type and supports reporting."
+  },
+  {
+    prompt: "Locking when importing Orders under Accounts (master-detail)",
+    options: [
+      { id: "A", text: "Load Accounts, then Orders sorted by OrderId" },
+      { id: "B", text: "Load Accounts, then Orders sorted by AccountId" },
+      { id: "C", text: "Switch to lookup during import, then back to master-detail" },
+      { id: "D", text: "Load separately and set AccountId with batch Apex" }
+    ],
+    answers: ["B"],
+    explanation: "Sorting by AccountId keeps each Account's Orders in the same batch, so batches don't compete for the same parent lock."
+  },
+  {
+    prompt: "360 view across several regional orgs",
+    options: [
+      { id: "A", text: "Consolidate data from each org into a central data store" },
+      { id: "B", text: "Salesforce Connect cross-org adapter" },
+      { id: "C", text: "Two-way integration between all orgs" },
+      { id: "D", text: "ETL to copy missing Accounts and Contacts into each org" }
+    ],
+    answers: ["A"],
+    explanation: "A central store gives one place with every org's customers. Cross-org links or point-to-point syncs get complex fast."
+  },
+  {
+    prompt: "100,000 Contacts exist (each with a unique External ID) and 200,000 new ones will be loaded.",
+    options: [
+      { id: "A", text: "Streaming API upsert" },
+      { id: "B", text: "Delete all, then insert everything" },
+      { id: "C", text: "Upsert everything" },
+      { id: "D", text: "Insert new records and update existing ones separately" }
+    ],
+    answers: ["D"],
+    explanation: "Upsert must look up every record first. When you already know which are new, separate Insert and Update jobs are faster."
+  },
+  {
+    prompt: "Loading 1 million Opportunities with Bulk API in parallel",
+    options: [
+      { id: "A", text: "Index Opportunity text fields" },
+      { id: "B", text: "Group batches by AccountId" },
+      { id: "C", text: "Sort batches by Name" },
+      { id: "D", text: "Order batches by an auto-number field" }
+    ],
+    answers: ["D"],
+    explanation: "The site says ordering avoids locking. Caution: locks come from parallel batches touching the same parent Account, which grouping by AccountId (B) prevents. Part 2's version of this question marked the AccountId answer. Most guides pick B. Check this one."
+  },
+  {
+    prompt: "Each Order has 10 line items, and the export is failing.",
+    options: [
+      { id: "A", text: "Export in multiple batches" },
+      { id: "B", text: "Bulk API in parallel mode" },
+      { id: "C", text: "Use PK Chunking" },
+      { id: "D", text: "Limit batches to 10K records" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Splitting the export into batches, and PK Chunking by ID range, keep each query small enough to avoid timeouts."
+  },
+  {
+    prompt: "Historical trend reports hurting performance and storage (choose 2)",
+    options: [
+      { id: "A", text: "Scheduled batch Apex copies aggregates to a custom object, then deletes originals" },
+      { id: "B", text: "Analytic Snapshots plus a purge plan" },
+      { id: "C", text: "Data Loader extract, aggregate, write back, delete originals" },
+      { id: "D", text: "A Salesforce Archiving feature to move older records off the storage limit" }
+    ],
+    answers: ["A", "D"],
+    explanation: "Keeping only summaries for trends cuts volume and storage. Note: Analytic Snapshots (B) exist exactly for trend reporting, so many guides pick A, B. Check this one."
+  },
+  {
+    prompt: "Agents in Service Console need website browsing (on-premise), store interactions and contact center history (both in Salesforce), and email campaign activity (marketing system).",
+    options: [
+      { id: "A", text: "Web tabs in Service Console" },
+      { id: "B", text: "Custom components pulling marketing and website data" },
+      { id: "C", text: "Salesforce Connect external objects for website and marketing" },
+      { id: "D", text: "A customer view with components showing website and marketing data as a mashup" }
+    ],
+    answers: ["D"],
+    explanation: "A mashup shows the outside data in context on the customer view without storing it or building full integrations."
+  },
+  {
+    prompt: "Users confused by new fields with no governance",
+    options: [
+      { id: "A", text: "Add descriptions and make fields required" },
+      { id: "B", text: "Maintain a data dictionary and a governance process for changes to common objects" },
+      { id: "C", text: "Report on blanks and fill gaps from outside sources" },
+      { id: "D", text: "Validation rules explaining each field" }
+    ],
+    answers: ["B"],
+    explanation: "The root issue is ungoverned change. A dictionary documents fields, and a change process makes sure new fields are reviewed and explained."
+  },
+  {
+    prompt: "UC has a certified-accurate MDM for customers, with over 20 million records in both the MDM and Salesforce. How can it ensure Salesforce data matches?",
+    options: [
+      { id: "A", text: "Compare manually in Excel" },
+      { id: "B", text: "Load MDM data into Salesforce and find differences with batch Apex" },
+      { id: "C", text: "An AppExchange data quality package that matches Salesforce against the trusted source" },
+      { id: "D", text: "Assume it will correct itself" }
+    ],
+    answers: ["C"],
+    explanation: "Data quality tools are built to match and fix records against a reference source at this scale. Excel can't handle 20 million rows, and loading the MDM into Salesforce doubles storage."
+  },
+  {
+    prompt: "Avoiding data skew with millions of records (choose 3)",
+    options: [
+      { id: "A", text: "Picklists instead of lookups to a custom object" },
+      { id: "B", text: "Limit any one user to owning 10,000 records" },
+      { id: "C", text: "Put 10,000 Opportunities on one Account" },
+      { id: "D", text: "Limit Opportunities per Account to 10,000" },
+      { id: "E", text: "Limit records looking up to the same record to 10,000" }
+    ],
+    answers: ["B", "D", "E"],
+    explanation: "These cover the three types of skew: ownership, account and lookup skew. About 10,000 child records per parent or owner is the usual threshold."
+  },
+  {
+    prompt: "The customer has plenty of storage. Reps' searches return old, irrelevant records, but managers need them for historical reporting.",
+    options: [
+      { id: "A", text: "A permission set to hide old data" },
+      { id: "B", text: "Batch Apex to archive nightly" },
+      { id: "C", text: "Archive and purge old data monthly" },
+      { id: "D", text: "Private sharing to hide old data" }
+    ],
+    answers: ["C"],
+    explanation: "Moving old data to an archive (where managers can still report on it) cleans up searches for reps. Permission sets can't hide records, and private sharing would hide current records too."
+  },
+  {
+    prompt: "NTO's legacy CRM stores agent relationships in a lookup table. How should this be migrated?",
+    options: [
+      { id: "A", text: "Custom objects to store agent relationships" },
+      { id: "B", text: "Migrate without record owners" },
+      { id: "C", text: "Assign owners based on the relationship" },
+      { id: "D", text: "Assign everything to a system user" }
+    ],
+    answers: ["A"],
+    explanation: "A custom (junction) object keeps the many relationships the lookup table held. Ownership can show only one person per record."
+  },
+  {
+    prompt: "Enforcing a data quality plan (choose 2)",
+    options: [
+      { id: "A", text: "Store data externally with view-only access in Salesforce" },
+      { id: "B", text: "Weekly reports that automatically merge or delete duplicates" },
+      { id: "C", text: "Enforce processes with workflow, validation rules and Apex" },
+      { id: "D", text: "A weekly dashboard of records missing information sent to managers" }
+    ],
+    answers: ["C", "D"],
+    explanation: "Rules and automation stop bad data at entry, and regular dashboards hold people accountable for fixing gaps. Reports can't merge or delete."
+  },
+  {
+    prompt: "An insurer gets leads from many channels and has duplicates, causing poor experience and higher costs.",
+    options: [
+      { id: "A", text: "A manual process to search and merge duplicates" },
+      { id: "B", text: "Standardize lead information across channels" },
+      { id: "C", text: "A custom solution to find and merge duplicates" },
+      { id: "D", text: "A third-party solution to clean and enrich lead data" },
+      { id: "E", text: "A de-duplication strategy that prevents duplicate leads" }
+    ],
+    answers: ["B", "D", "E"],
+    explanation: "Standard formats make matching possible, a proven tool cleans existing data, and prevention stops new duplicates. Manual and custom approaches don't scale or cost more."
+  },
+  {
+    prompt: "Automatically archive inactive Accounts older than 3 years (choose 2)",
+    options: [
+      { id: "A", text: "Export with Workbench" },
+      { id: "B", text: "Weekly export from the UI" },
+      { id: "C", text: "Scheduled export-and-delete jobs with an ETL tool" },
+      { id: "D", text: "Scheduled export-and-delete jobs with Data Loader" }
+    ],
+    answers: ["C", "D"],
+    explanation: "Both can run on a schedule with filters and delete after exporting. Workbench and weekly export are manual or export only."
+  },
+  {
+    prompt: "Nightly integration queries timing out on 12 million records (choose 2)",
+    options: [
+      { id: "A", text: "Make sure filters don't check for NULL" },
+      { id: "B", text: "Use a formula field instead of multiple filters" },
+      { id: "C", text: "Custom indexes on the filter fields" },
+      { id: "D", text: "Give the integration user View All Data" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Filters on NULL usually can't use indexes, and indexing filter fields makes queries selective. Formula fields aren't indexed, and View All Data doesn't speed queries."
+  },
+  {
+    prompt: "What enterprise data governance improves (choose 2)",
+    options: [
+      { id: "A", text: "Data integrity" },
+      { id: "B", text: "Data distribution" },
+      { id: "C", text: "Data usability" },
+      { id: "D", text: "Data modeling" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Governance makes data accurate and consistent (integrity) and easy to use (usability)."
+  },
+  {
+    prompt: "Agents need order history on the customer record during calls, without hurting the user experience.",
+    options: [
+      { id: "A", text: "Apex callout filling a text area" },
+      { id: "B", text: "Salesforce Connect with an external object" },
+      { id: "C", text: "Import into a custom object nightly" },
+      { id: "D", text: "ERP in an iframe on a custom tab" }
+    ],
+    answers: ["B"],
+    explanation: "External objects show live ERP orders as a related list on the customer, without copying the data or leaving Salesforce."
+  },
+  {
+    prompt: "Maintaining Contact data quality (choose 2)",
+    options: [
+      { id: "A", text: "Private sharing model" },
+      { id: "B", text: "Duplicate management" },
+      { id: "C", text: "Validation rules on create and edit" },
+      { id: "D", text: "Workflow to delete duplicates" }
+    ],
+    answers: ["B", "C"],
+    explanation: "Duplicate rules stop duplicates and validation rules enforce correct values. Workflow can't delete records."
+  },
+  {
+    prompt: "Activity is in a POS system, Salesforce, a mobile app and a marketing system; agents need it current and real time.",
+    options: [
+      { id: "A", text: "External data sources in Salesforce" },
+      { id: "B", text: "A customer data mart" },
+      { id: "C", text: "Migrate all activity into Salesforce" },
+      { id: "D", text: "Periodic summary uploads" }
+    ],
+    answers: ["A"],
+    explanation: "External data sources show live data without storing it. A data mart or periodic uploads aren't real time."
+  },
+  {
+    prompt: "Shipment must always relate to a Product, Sender and Receiver (all custom objects). Parents can't be deleted while linked, and each object needs its own sharing model.",
+    options: [
+      { id: "A", text: "VLOOKUP formula fields" },
+      { id: "B", text: "Required lookups to all three parents" },
+      { id: "C", text: "Master-detail to all three" },
+      { id: "D", text: "Two master-details and one lookup" }
+    ],
+    answers: ["B"],
+    explanation: "A required lookup can't be blank and blocks deletion of a referenced parent, while sharing stays separate. Master-detail would make Shipment inherit sharing, and an object can have only two master-details."
+  },
+  {
+    prompt: "Key data modeling actions for a legacy migration (choose 3)",
+    options: [
+      { id: "A", text: "Identify data elements to keep in Salesforce" },
+      { id: "B", text: "Map legacy data to Salesforce objects" },
+      { id: "C", text: "Map legacy data to custom objects" },
+      { id: "D", text: "Analyze the legacy model with the app owner" },
+      { id: "E", text: "Implement the legacy model with custom fields" }
+    ],
+    answers: ["A", "B", "E"],
+    explanation: "Decide what to keep, map it to Salesforce objects, then build fields. Note: many guides pick D instead of E, since copying a legacy model as-is is discouraged. Check this one."
+  },
+  {
+    prompt: "Distributors create sales orders (stored as Opportunities) priced by region, closed when fulfilled.",
+    options: [
+      { id: "A", text: "Lookup to a custom Price object shared with distributors" },
+      { id: "B", text: "A price book per region, shared with distributors" },
+      { id: "C", text: "Manually update prices on Opportunities" },
+      { id: "D", text: "Custom fields and triggers to set prices" }
+    ],
+    answers: ["B"],
+    explanation: "Price books are the standard way to hold different prices per region, and Opportunity products pull prices from them."
+  },
+  {
+    prompt: "Bulk query timing out on 10 million Orders",
+    options: [
+      { id: "A", text: "Tooling API" },
+      { id: "B", text: "PK Chunking" },
+      { id: "C", text: "Metadata API" },
+      { id: "D", text: "Streaming API" }
+    ],
+    answers: ["B"],
+    explanation: "PK Chunking splits the query into ID ranges run as separate batches, so no single query times out."
+  },
+  {
+    prompt: "When is Salesforce Connect needed? (choose 3)",
+    options: [
+      { id: "A", text: "You want real-time access to the latest data" },
+      { id: "B", text: "You want to copy subsets into Salesforce" },
+      { id: "C", text: "You need a virtual private connection" },
+      { id: "D", text: "You have lots of data you don't want to copy in" },
+      { id: "E", text: "You only need small amounts of external data at a time" }
+    ],
+    answers: ["A", "D", "E"],
+    explanation: "Salesforce Connect fits live data, large volumes you don't want to copy, and small slices viewed at a time."
+  },
+  {
+    prompt: "Tracing configuration changes back to requirements (choose 2)",
+    options: [
+      { id: "A", text: "Review the Setup Audit Trail" },
+      { id: "B", text: "Put the business purpose in each field's Description" },
+      { id: "C", text: "Keep a data dictionary with each field's justification" },
+      { id: "D", text: "Store metadata in source control" }
+    ],
+    answers: ["B", "D"],
+    explanation: "Field descriptions record why each field exists, and source control keeps a linked history of changes. Note: a data dictionary (C) serves the same purpose, so some guides choose C, D."
+  },
+  {
+    prompt: "Customer Type limited to High, Medium, Low",
+    options: [
+      { id: "A", text: "Lookup to a custom object" },
+      { id: "B", text: "Single-select restricted picklist" },
+      { id: "C", text: "Help text listing the choices" },
+      { id: "D", text: "A validation rule limiting entries" }
+    ],
+    answers: ["B"],
+    explanation: "A restricted picklist only accepts its defined values, even through the API, and reports group cleanly on it."
+  },
+  {
+    prompt: "Keep 2 years in Salesforce, archive the rest",
+    options: [
+      { id: "A", text: "Third-party backup of all data" },
+      { id: "B", text: "Batch job moving and deleting all records" },
+      { id: "C", text: "Batch job moving records older than two years off platform and deleting them" },
+      { id: "D", text: "Batch job moving everything but deleting only old records" }
+    ],
+    answers: ["C"],
+    explanation: "It archives exactly the data that should leave. A backup doesn't free storage."
+  },
+  {
+    prompt: "Preventing ownership skew for 100,000 migrated Accounts (choose 3)",
+    options: [
+      { id: "A", text: "A default owner with a normal role in the hierarchy" },
+      { id: "B", text: "Keep that user out of public groups used in sharing rules" },
+      { id: "C", text: "A default owner with no role" },
+      { id: "D", text: "Give View All on profiles" },
+      { id: "E", text: "A default owner in the top-most role" }
+    ],
+    answers: ["B", "C", "E"],
+    explanation: "Salesforce's guidance for a user owning many records: no role, or if needed a separate role at the top of the hierarchy, and keep them out of groups used for sharing. This limits sharing recalculation when things change."
+  },
+  {
+    prompt: "Querying Salesforce for parent Order IDs before loading lines causes timeouts.",
+    options: [
+      { id: "A", text: "Query only indexed ID fields" },
+      { id: "B", text: "Use the source system's External ID on Orders to link order lines" },
+      { id: "C", text: "Batch Apex to set Order IDs on lines after import" },
+      { id: "D", text: "A number sequence on imported Orders" }
+    ],
+    answers: ["B"],
+    explanation: "With an External ID on Order, the line load can reference the parent by its source ID, and Salesforce resolves it, so no lookup queries are needed."
+  },
+  {
+    prompt: "Monthly and yearly reports on 5M Opportunities and 10M Orders timing out",
+    options: [
+      { id: "A", text: "Copy Order data onto Opportunity fields" },
+      { id: "B", text: "Report in a third-party tool outside Salesforce" },
+      { id: "C", text: "A skinny table combining Order and Opportunity fields" },
+      { id: "D", text: "An aggregate custom object with monthly and yearly summaries" }
+    ],
+    answers: ["D"],
+    explanation: "Pre-summarized records make the reports tiny and fast. Skinny tables can't combine two objects, and copying fields or moving off-platform is more work."
+  },
+  {
+    prompt: "Clean migration from two legacy systems",
+    options: [
+      { id: "A", text: "External IDs, merge the second database into the first, then load" },
+      { id: "B", text: "Duplicate rules in Salesforce, load from both" },
+      { id: "C", text: "A staging database with External IDs to merge, clean and de-dupe, then load" },
+      { id: "D", text: "External IDs, insert from one database and upsert from the other" }
+    ],
+    answers: ["C"],
+    explanation: "Staging lets you combine, clean and de-duplicate both sources before one clean load."
+  },
+  {
+    prompt: "Avoiding duplicate Leads when importing (choose 2)",
+    options: [
+      { id: "A", text: "An AppExchange lead de-duplication app" },
+      { id: "B", text: "Salesforce matching and duplicate rules" },
+      { id: "C", text: "The Lead mass de-duplication tool" },
+      { id: "D", text: "A workflow rule checking for duplicates" }
+    ],
+    answers: ["A", "B"],
+    explanation: "Duplicate rules and specialized apps catch duplicates on import. There's no standard Lead mass-dedupe tool, and workflow can't detect duplicates."
+  },
+  {
+    prompt: "Identifying and filtering sensitive data",
+    options: [
+      { id: "A", text: "Data grouping metadata" },
+      { id: "B", text: "Field-level security" },
+      { id: "C", text: "A custom \"sensitive\" checkbox" },
+      { id: "D", text: "Data classification metadata" }
+    ],
+    answers: ["D"],
+    explanation: "Data classification fields (sensitivity level, compliance category, owner) tag each field so sensitive data can be found and filtered. FLS controls access but doesn't label anything."
+  },
+  {
+    prompt: "The app needs 45 custom objects and about 20,000 API calls a day from an on-premise app.",
+    options: [
+      { id: "A", text: "Service Cloud" },
+      { id: "B", text: "Lightning Platform Starter" },
+      { id: "C", text: "Lightning Platform Plus" },
+      { id: "D", text: "Lightning External Apps Starter" }
+    ],
+    answers: ["C"],
+    explanation: "Platform Plus allows up to 110 custom objects with more API capacity; Starter allows only 10 custom objects. The app needs no CRM objects, so Service Cloud would be overkill."
+  },
+  {
+    prompt: "The project has large data volumes, real-time web service integrations and Visualforce mashups; the Full sandbox connects to full-scale back-end test systems.",
+    options: [
+      { id: "A", text: "Pre-go-live automated page-load testing in the Full sandbox" },
+      { id: "B", text: "Post-go-live page-load testing in Production" },
+      { id: "C", text: "Pre-go-live unit testing in the Full sandbox" },
+      { id: "D", text: "Stress testing the web services on the middleware" }
+    ],
+    answers: ["A", "D"],
+    explanation: "Load-test the pages in a production-like sandbox before go-live, and stress-test the integrations that could become bottlenecks. Testing in Production is too late, and unit tests don't measure performance. (Salesforce requires approval before load testing.)"
+  },
+  {
+    prompt: "More analytics beyond native reports (choose 2)",
+    options: [
+      { id: "A", text: "Weekly snapshots" },
+      { id: "B", text: "Einstein Analytics" },
+      { id: "C", text: "Setup Audit Trail" },
+      { id: "D", text: "AppExchange apps" }
+    ],
+    answers: ["B", "D"],
+    explanation: "Einstein (CRM) Analytics and AppExchange BI apps give deeper, cross-source analysis than native reports."
+  },
+  {
+    prompt: "Order status from an ERP for reps without ERP access",
+    options: [
+      { id: "A", text: "Canvas to show the order management UI in a tab" },
+      { id: "B", text: "Batch jobs pushing order lines to Salesforce" },
+      { id: "C", text: "Salesforce Connect to bring order lines in as external objects" },
+      { id: "D", text: "A real-time integration pulling order lines when viewing orders" }
+    ],
+    answers: ["C"],
+    explanation: "Salesforce Connect shows live ERP order data inside Salesforce without copying it or building custom integration."
+  },
+  {
+    prompt: "Orchestrating data between a hub org and spoke orgs",
+    options: [
+      { id: "A", text: "Middleware that extracts and distributes data across hub and spokes" },
+      { id: "B", text: "Custom APIs polling the hub and pushing to spokes" },
+      { id: "C", text: "Custom APIs polling the spokes and pushing to the hub" },
+      { id: "D", text: "A backup and archive solution" }
+    ],
+    answers: ["A"],
+    explanation: "Middleware is built to route, transform and orchestrate data between many systems. Custom polling APIs are brittle and one-directional."
+  },
+  {
+    prompt: "Leads piled on one dummy user",
+    options: [
+      { id: "A", text: "Dummy user in the lowest role" },
+      { id: "B", text: "Several dummy users sharing the Leads" },
+      { id: "C", text: "Dummy user in the highest role" },
+      { id: "D", text: "Periodically delete Leads" }
+    ],
+    answers: ["B"],
+    explanation: "One owner of more than ~10,000 records causes ownership skew. Spreading the Leads across several users removes it."
+  },
+  {
+    prompt: "Avoiding duplicate B2C customers (choose 2)",
+    options: [
+      { id: "A", text: "Duplicate Management" },
+      { id: "B", text: "An Enterprise Service Bus" },
+      { id: "C", text: "Data.com Clean" },
+      { id: "D", text: "A data warehouse" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Duplicate rules prevent duplicates, and Data.com Clean keeps records accurate against a reference source."
+  },
+  {
+    prompt: "UC is moving millions of ERP records into Salesforce. In which situation should serial mode be used instead of parallel?",
+    options: [
+      { id: "A", text: "20 batches queued for upsert jobs" },
+      { id: "B", text: "Inserting 1 million orders across many accounts, with possible lock exceptions" },
+      { id: "C", text: "A controlled feed of 10 batches per job" },
+      { id: "D", text: "Inserting 1 million orders with lock exceptions already eliminated" }
+    ],
+    answers: ["B"],
+    explanation: "Serial mode is for when parallel batches might lock the same parent records. If locks are already ruled out (D), parallel is faster."
+  },
+  {
+    prompt: "License for complaints, white papers and paid support",
+    options: [
+      { id: "A", text: "Sales Cloud" },
+      { id: "B", text: "Lightning Platform Starter" },
+      { id: "C", text: "Service Cloud" },
+      { id: "D", text: "Salesforce" }
+    ],
+    answers: ["C"],
+    explanation: "Cases, Knowledge and Entitlements are Service Cloud features."
+  },
+  {
+    prompt: "Real-time access to non-OData external data, no middleware",
+    options: [
+      { id: "A", text: "Apex REST callout" },
+      { id: "B", text: "A process calling an invocable web service" },
+      { id: "C", text: "Migrate to Heroku Postgres" },
+      { id: "D", text: "A custom adapter with the Apex Connector Framework" }
+    ],
+    answers: ["D"],
+    explanation: "The Apex Connector Framework builds a custom Salesforce Connect adapter for any API, giving real-time external objects without OData or middleware."
+  },
+  {
+    prompt: "Encrypting patient files",
+    options: [
+      { id: "A", text: "Shield Platform Encryption for files" },
+      { id: "B", text: "Classic encryption" },
+      { id: "C", text: "A third-party AppExchange app" },
+      { id: "D", text: "Store files outside Salesforce" }
+    ],
+    answers: ["A"],
+    explanation: "Shield Platform Encryption can encrypt files and attachments at rest. Classic encryption only covers special text fields."
+  },
+  {
+    prompt: "A logistics company's reports on large container-location data are starting to time out.",
+    options: [
+      { id: "A", text: "A custom Visualforce report using a cache" },
+      { id: "B", text: "Replace the reports with Analytics Cloud (CRM Analytics) reports" },
+      { id: "C", text: "An Apex trigger on Report to pre-fetch data" },
+      { id: "D", text: "A dashboard that runs the reports once a day" }
+    ],
+    answers: ["B"],
+    explanation: "CRM Analytics is built for large data volumes and doesn't have standard reports' timeouts. You can't put triggers on reports."
+  },
+  {
+    prompt: "UC must load all data, including users, quickly in an org with many roles, territories, groups and sharing rules.",
+    options: [
+      { id: "A", text: "Defer sharing calculations and suspend sharing rule calculation" },
+      { id: "B", text: "Data Loader with parallel processing" },
+      { id: "C", text: "Bulk API with concurrent batches" },
+      { id: "D", text: "Granular locking" }
+    ],
+    answers: ["A"],
+    explanation: "The slow part is sharing recalculation after each change. Deferring it lets the load finish first, then recalculates once."
+  },
+  {
+    prompt: "A subset must sync to Salesforce for service agents; the rest must be reachable from Salesforce any time, without storage problems.",
+    options: [
+      { id: "A", text: "Virtualize the remaining data with Salesforce Connect and external objects" },
+      { id: "B", text: "Heroku Connect two-way sync of all data" },
+      { id: "C", text: "Callouts that copy data into Salesforce as needed" },
+      { id: "D", text: "Migrate to big objects and use Async SOQL" }
+    ],
+    answers: ["A"],
+    explanation: "Heroku Connect syncs the subset, and external objects show the rest without storing it in Salesforce. Syncing a billion records would blow through storage."
+  },
+  {
+    prompt: "Reporting failures from an Apex lead-creation job",
+    options: [
+      { id: "A", text: "Store leads in a custom object and report on unprocessed ones" },
+      { id: "B", text: "Save Apex errors in a custom object for reporting" },
+      { id: "C", text: "Email failures to the business from Apex" },
+      { id: "D", text: "An AppExchange package to clean leads first" }
+    ],
+    answers: ["C"],
+    explanation: "Apex can email failures as they happen. Caution: the site's own explanation describes B (logging errors to a custom object for reporting), and many guides pick B. Check this one."
+  },
+  {
+    prompt: "Many portal orders owned by one generic user (choose 2)",
+    options: [
+      { id: "A", text: "Clear the generic user's role" },
+      { id: "B", text: "No action needed; Salesforce handles it" },
+      { id: "C", text: "Put the generic user in a role at the top of the hierarchy" },
+      { id: "D", text: "Spread ownership across a pool of generic users" }
+    ],
+    answers: ["A", "C"],
+    explanation: "One user owning many records causes ownership skew. Salesforce's guidance for such a user is no role at all or, if a role is needed, a separate role at the top of the hierarchy, so changes don't trigger sharing recalculation across the hierarchy. Spreading ownership (D) also helps, so some guides pick A, D."
+  },
+  {
+    prompt: "Deciding field-level system of record with MDM",
+    options: [
+      { id: "A", text: "MDM decides it, so the architect needn't" },
+      { id: "B", text: "Key stakeholders review fields with the same purpose across systems" },
+      { id: "C", text: "Differently named fields always become separate fields" },
+      { id: "D", text: "Input fields get overwritten and can't have a system of record" }
+    ],
+    answers: ["B"],
+    explanation: "Field ownership is a business decision that stakeholders agree on; MDM then enforces it."
+  },
+  {
+    prompt: "Legacy inventory goes into a custom child object Inventory__c related to Account. It must inherit Account's sharing and be deleted when the Account is deleted.",
+    options: [
+      { id: "A", text: "Master-detail field on Account pointing to Inventory__c" },
+      { id: "B", text: "Master-detail field on Inventory__c pointing to Account" },
+      { id: "C", text: "Indirect lookup on Account" },
+      { id: "D", text: "Lookup on Inventory__c to Account" }
+    ],
+    answers: ["B"],
+    explanation: "The master-detail field lives on the child (detail). It gives inherited sharing and cascade delete. A lookup does neither."
+  },
+  {
+    prompt: "NTO's 5-year-old org has incomplete and duplicate data, and an architect will define quality standards.",
+    options: [
+      { id: "A", text: "Define duplication standards and rules" },
+      { id: "B", text: "Define key fields in a staging database" },
+      { id: "C", text: "Measure timeliness and consistency" },
+      { id: "D", text: "Pick an ETL tool" },
+      { id: "E", text: "Measure completeness and accuracy" }
+    ],
+    answers: ["A", "C", "E"],
+    explanation: "Standards cover the core quality dimensions: uniqueness, timeliness, consistency, completeness and accuracy. Staging and ETL are migration choices, not standards."
+  },
+  {
+    prompt: "Questions for an archiving strategy (choose 3)",
+    options: [
+      { id: "A", text: "How many fields the objects have" },
+      { id: "B", text: "Who currently has access" },
+      { id: "C", text: "Can reporting use fewer summary records?" },
+      { id: "D", text: "Will archived data need reporting or access later?" },
+      { id: "E", text: "Do regulations restrict archiving and purging?" }
+    ],
+    answers: ["C", "D", "E"],
+    explanation: "Future access needs, whether summaries suffice, and regulations decide what to keep and where."
+  },
+  {
+    prompt: "Cloud Kicks expects 6,000 customers growing to 24,000, each sending about 12 shipment requests a week (up to 5 items each). Customers need 3 years of requests and Salesforce reports.",
+    options: [
+      { id: "A", text: "External object for requests plus child external object for items (Heroku)" },
+      { id: "B", text: "External object for requests with five item lookups (Heroku)" },
+      { id: "C", text: "Custom object for requests plus child custom object for items, archiving off-platform after 3 years" },
+      { id: "D", text: "Custom object with five item lookups, archiving after 3 years" }
+    ],
+    answers: ["C"],
+    explanation: "Custom objects support community access and standard reporting, a child object models items properly, and archiving after 3 years controls growth. Five lookup fields is poor design."
+  },
+  {
+    prompt: "What to review before a data stewardship engagement (choose 3)",
+    options: [
+      { id: "A", text: "Metadata XML files for redundant fields" },
+      { id: "B", text: "Whether integrations create records in Salesforce" },
+      { id: "C", text: "Key reports to decide which fields should be required" },
+      { id: "D", text: "The Setup Audit Trail to see which fields are used" },
+      { id: "E", text: "The sharing model's impact on duplicate records" }
+    ],
+    answers: ["B", "C", "E"],
+    explanation: "Integrations are a common source of bad data, reports show which fields matter, and restrictive sharing makes users create duplicates of records they can't see. The audit trail shows config changes, not field usage."
+  },
+  {
+    prompt: "Tracking history on 100 Opportunity fields (choose 2)",
+    options: [
+      { id: "A", text: "A custom object storing a copy of the record when changed" },
+      { id: "B", text: "A custom object storing previous and new values" },
+      { id: "C", text: "Analytic Snapshots on change" },
+      { id: "D", text: "Select all 100 fields in history tracking" }
+    ],
+    answers: ["A", "B"],
+    explanation: "Standard history tracking allows only 20 fields per object (60 with Field Audit Trail), so 100 fields needs a custom solution."
+  },
+  {
+    prompt: "Same customer information across a multi-system call center",
+    options: [
+      { id: "A", text: "Make Salesforce the system of record for all data" },
+      { id: "B", text: "A master data management (MDM) strategy for customer data" },
+      { id: "C", text: "Load customer data into every system" },
+      { id: "D", text: "Let each system own the data it creates" }
+    ],
+    answers: ["B"],
+    explanation: "MDM defines one master customer record and keeps every system in line with it. Copying data everywhere creates drift."
+  },
+  {
+    prompt: "Customers must have these three fields before they can be created in the MDM.",
+    options: [
+      { id: "A", text: "Mark them required on the page layout" },
+      { id: "B", text: "Validation rules checking the fields" },
+      { id: "C", text: "Mark the fields required in Setup" },
+      { id: "D", text: "Check in the MDM integration" }
+    ],
+    answers: ["B"],
+    explanation: "Validation rules apply to every channel (UI, API, imports). Page-layout requirements only apply in the UI, and some standard fields can't be made universally required."
+  },
+  {
+    prompt: "Opportunities go to an on-premise ERP when Closed/Won, where they're read-only.",
+    options: [
+      { id: "A", text: "An MDM system" },
+      { id: "B", text: "A workflow rule sending Outbound Messages" },
+      { id: "C", text: "ERP polls Salesforce nightly" },
+      { id: "D", text: "An hourly integration" }
+    ],
+    answers: ["B"],
+    explanation: "An outbound message fires as soon as the stage changes, with no code, and retries until delivered. The other options aren't real time."
+  },
+  {
+    prompt: "Custom Visualforce pages also edit Opportunities. Two fields should become required only at later stages.",
+    options: [
+      { id: "A", text: "Required on the page layout" },
+      { id: "B", text: "A validation rule per field that checks Stage" },
+      { id: "C", text: "Required in Setup" },
+      { id: "D", text: "An Apex trigger" }
+    ],
+    answers: ["B"],
+    explanation: "Validation rules can depend on Stage and apply to the Visualforce pages too. Layout and Setup requirements can't depend on Stage, and a trigger is more work."
+  },
+  {
+    prompt: "CEO dashboard on 100 million Opportunities timing out (choose 3)",
+    options: [
+      { id: "A", text: "Selective queries to return less data" },
+      { id: "B", text: "Denormalize to reduce joins" },
+      { id: "C", text: "Remove dashboard widgets" },
+      { id: "D", text: "Run it and email it to the CEO" },
+      { id: "E", text: "Archive unused Opportunities" }
+    ],
+    answers: ["A", "B", "E"],
+    explanation: "All three cut the data each query has to process. Fewer widgets or emailing it works around the problem rather than fixing it."
+  }
+];

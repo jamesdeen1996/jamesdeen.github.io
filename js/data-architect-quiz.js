@@ -13,6 +13,8 @@ const questions = partNumber === 1
   ? window.dataArchitectQuestions
   : partNumber === 2
     ? window.dataArchitectPart2Questions
+    : partNumber === 3
+      ? window.dataArchitectPart3Questions
     : [];
 const partHeading = document.querySelector("#part-number");
 const sampleNote = document.querySelector("#sample-note");
@@ -20,7 +22,7 @@ const comingSoon = document.querySelector("#coming-soon");
 
 document.title = `Data Architect - Part ${partNumber}`;
 
-if (partNumber === 1 || partNumber === 2) {
+if (partNumber === 1 || partNumber === 2 || partNumber === 3) {
   partHeading.textContent = String(partNumber);
   sampleNote.textContent = `This part contains ${questions.length} practice questions.`;
   renderQuestions();
@@ -29,7 +31,7 @@ if (partNumber === 1 || partNumber === 2) {
   backToPartsButton.addEventListener("click", () => {
     window.location.href = "data-architect-home.html";
   });
-} else if (partNumber >= 2 && partNumber <= 6) {
+} else if (partNumber >= 4 && partNumber <= 6) {
   partHeading.textContent = String(partNumber);
   document.querySelector("#quiz-intro")?.remove();
   sampleNote.hidden = true;
