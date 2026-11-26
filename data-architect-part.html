@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Architect - Part 1</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="data-architect.css">
+  <script src="data-architect-questions.js" defer></script>
+  <script src="data-architect-quiz.js" defer></script>
+</head>
+<body class="quiz-page">
+  <main class="quiz-shell">
+    <a class="back-link" href="data-architect-home.html">Back to parts</a>
+    <header class="quiz-header">
+      <p class="eyebrow">Salesforce Certified Platform Data Architect</p>
+      <h1>Part <span id="part-number">1</span></h1>
+      <p class="quiz-intro" id="quiz-intro">Choose an answer for each question, then submit to see your score and explanations.</p>
+      <p class="sample-note" id="sample-note">This part contains 26 practice questions.</p>
+    </header>
+
+    <section class="coming-soon" id="coming-soon" hidden></section>
+    <section class="score-summary" id="score-summary" aria-live="polite" tabindex="-1" hidden></section>
+    <p class="quiz-error" id="quiz-error" role="alert" hidden>Answer every question and select the requested number of choices before submitting.</p>
+
+    <form id="quiz-form">
+      <ol class="question-list" id="question-list"></ol>
+      <div class="quiz-actions">
+        <button class="submit-button" id="submit-quiz" type="submit">Submit</button>
+        <button class="retry-button" id="retry-quiz" type="button" hidden>Try again</button>
+        <button class="back-to-parts-button" id="back-to-parts" type="button" hidden>Go back</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>
