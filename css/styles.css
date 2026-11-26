@@ -67,3 +67,92 @@ body {
     font-size: 16px;
   }
 }
+
+/* Password gate */
+.home-content {
+  display: none;
+  width: 100%;
+  max-width: 760px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.is-authenticated .home-content {
+  display: flex;
+}
+
+.is-authenticated .login-card {
+  display: none;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 360px;
+  padding: 28px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgba(20, 12, 60, 0.35);
+}
+
+.login-card h1 {
+  margin: 0;
+  color: #25213a;
+  font-size: 22px;
+}
+
+.login-card input {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #b9b5c9;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.login-card input:focus-visible {
+  outline: 3px solid #78b7e8;
+  outline-offset: 1px;
+  border-color: #0176d3;
+}
+
+.login-card button {
+  min-height: 48px;
+  border: 0;
+  border-radius: 8px;
+  background: #0176d3;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-card button:hover {
+  background: #014486;
+}
+
+.login-error {
+  margin: 0;
+  color: #ba0517;
+  font-size: 14px;
+}
+
+.logout-button {
+  border: 0;
+  background: none;
+  color: #ffffff;
+  font-size: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
