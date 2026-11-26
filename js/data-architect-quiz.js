@@ -5,33 +5,37 @@ const errorMessage = document.querySelector("#quiz-error");
 const submitButton = document.querySelector("#submit-quiz");
 const retryButton = document.querySelector("#retry-quiz");
 const backToPartsButton = document.querySelector("#back-to-parts");
+const config = window.quizConfig ?? {
+  name: "Data Architect",
+  homeUrl: "data-architect-home.html",
+  partCount: 6,
+  parts: {
+    1: window.dataArchitectQuestions,
+    2: window.dataArchitectPart2Questions,
+    3: window.dataArchitectPart3Questions
+  }
+};
 const requestedPart = Number(new URLSearchParams(window.location.search).get("part") || "1");
-const partNumber = Number.isInteger(requestedPart) && requestedPart >= 1 && requestedPart <= 6
+const partNumber = Number.isInteger(requestedPart) && requestedPart >= 1 && requestedPart <= config.partCount
   ? requestedPart
   : 0;
-const questions = partNumber === 1
-  ? window.dataArchitectQuestions
-  : partNumber === 2
-    ? window.dataArchitectPart2Questions
-    : partNumber === 3
-      ? window.dataArchitectPart3Questions
-    : [];
+const questions = config.parts[partNumber] ?? [];
 const partHeading = document.querySelector("#part-number");
 const sampleNote = document.querySelector("#sample-note");
 const comingSoon = document.querySelector("#coming-soon");
 
-document.title = `Data Architect - Part ${partNumber}`;
+document.title = `${config.name} - Part ${partNumber}`;
 
-if (partNumber === 1 || partNumber === 2 || partNumber === 3) {
+if (questions.length > 0) {
   partHeading.textContent = String(partNumber);
-  sampleNote.textContent = `This part contains ${questions.length} practice questions.`;
+  sampleNote.textContent = `This part contains ${questions.length} practice question${questions.length === 1 ? "" : "s"}.`;
   renderQuestions();
   form.addEventListener("submit", submitQuiz);
   retryButton.addEventListener("click", resetQuiz);
   backToPartsButton.addEventListener("click", () => {
-    window.location.href = "data-architect-home.html";
+    window.location.href = config.homeUrl;
   });
-} else if (partNumber >= 4 && partNumber <= 6) {
+} else if (partNumber > 0) {
   partHeading.textContent = String(partNumber);
   document.querySelector("#quiz-intro")?.remove();
   sampleNote.hidden = true;
@@ -39,11 +43,11 @@ if (partNumber === 1 || partNumber === 2 || partNumber === 3) {
   comingSoon.textContent = `Questions for Part ${partNumber} will be added here.`;
   comingSoon.hidden = false;
 } else {
-  document.title = "Data Architect - Part not found";
+  document.title = `${config.name} - Part not found`;
   partHeading.textContent = "Not found";
   sampleNote.hidden = true;
   form.hidden = true;
-  comingSoon.textContent = "Choose a part from the Data Architect parts page.";
+  comingSoon.textContent = `Choose a part from the ${config.name} parts page.`;
   comingSoon.hidden = false;
 }
 

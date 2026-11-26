@@ -110,6 +110,8 @@
   font-size: 19px;
   font-weight: 700;
   line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .question-instruction {

@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Platform Developer 1 Practice Quiz</title>
+  <title>Platform Developer 1 - Part 1</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/data-architect.css">
-  <script src="js/platform-developer-part.js" defer></script>
+  <script src="js/platform-developer-questions.js" defer></script>
+  <script src="js/data-architect-quiz.js" defer></script>
 </head>
 <body class="quiz-page">
   <main class="quiz-shell">
@@ -14,11 +15,22 @@
     <header class="quiz-header">
       <p class="eyebrow">Salesforce Certified Platform Developer 1</p>
       <h1>Part <span id="part-number">1</span></h1>
-      <p class="quiz-intro">The question bank for this part will be added when the questions are provided.</p>
+      <p class="quiz-intro" id="quiz-intro">Choose an answer for each question, then submit to see your score and explanations.</p>
+      <p class="sample-note" id="sample-note"></p>
     </header>
-    <section class="coming-soon" id="coming-soon" aria-live="polite">
-      Questions for this part are coming soon.
-    </section>
+
+    <section class="coming-soon" id="coming-soon" hidden></section>
+    <section class="score-summary" id="score-summary" aria-live="polite" tabindex="-1" hidden></section>
+    <p class="quiz-error" id="quiz-error" role="alert" hidden>Answer every question and select the requested number of choices before submitting.</p>
+
+    <form id="quiz-form">
+      <ol class="question-list" id="question-list"></ol>
+      <div class="quiz-actions">
+        <button class="submit-button" id="submit-quiz" type="submit">Submit</button>
+        <button class="retry-button" id="retry-quiz" type="button" hidden>Try again</button>
+        <button class="back-to-parts-button" id="back-to-parts" type="button" hidden>Go back</button>
+      </div>
+    </form>
   </main>
 </body>
 </html>
