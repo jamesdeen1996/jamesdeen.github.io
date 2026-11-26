@@ -9,14 +9,25 @@
 </head>
 <body>
   <form class="login-card" id="login-form" novalidate>
-    <h1>Enter password</h1>
-    <label class="visually-hidden" for="password">Password</label>
-    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required>
+    <div class="login-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+        <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+      </svg>
+    </div>
+    <p class="login-eyebrow">Salesforce Certification Practice</p>
+    <h1 class="login-title">Welcome back</h1>
+
+    <label class="login-label" for="password">Password</label>
+    <div class="password-field">
+      <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter password" required>
+      <button class="password-toggle" id="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+    </div>
     <p class="login-error" id="login-error" role="alert" hidden>Incorrect password. Try again.</p>
-    <button type="submit">Log in</button>
+    <button class="login-submit" type="submit">Log in</button>
   </form>
 
-  <div class="home-content">
+  <div class="home-content" id="home-content" hidden>
     <main class="button-group" aria-label="Certification choices">
       <a class="certification-link" href="data-architect-home.html">Data Architect</a>
       <button type="button">Sharing and Visibility Architect</button>

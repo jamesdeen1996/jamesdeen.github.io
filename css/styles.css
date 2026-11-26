@@ -70,7 +70,7 @@ body {
 
 /* Password gate */
 .home-content {
-  display: none;
+  display: flex;
   width: 100%;
   max-width: 760px;
   flex-direction: column;
@@ -78,65 +78,188 @@ body {
   gap: 24px;
 }
 
-.is-authenticated .home-content {
-  display: flex;
-}
-
+.home-content[hidden],
+.login-card[hidden],
+html:not(.is-authenticated) .home-content,
 .is-authenticated .login-card {
   display: none;
+}
+
+/* Keep the login page content in the exact center of the screen */
+html[data-page="login"] body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  align-items: stretch;
   width: 100%;
-  max-width: 360px;
-  padding: 28px;
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 12px 32px rgba(20, 12, 60, 0.35);
+  max-width: 400px;
+  margin: auto;
+  padding: 40px 32px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 24px 60px rgba(16, 8, 52, 0.45),
+    0 2px 6px rgba(16, 8, 52, 0.2);
+  text-align: center;
+  animation: login-rise 400ms ease-out both;
 }
 
-.login-card h1 {
-  margin: 0;
+@keyframes login-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-card {
+    animation: none;
+  }
+}
+
+.login-icon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0176d3, #5337be);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(83, 55, 190, 0.4);
+}
+
+.login-eyebrow {
+  margin: 0 0 6px;
+  color: #5b4ca0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.login-title {
+  margin: 0 0 28px;
   color: #25213a;
-  font-size: 22px;
+  font-size: 26px;
+  line-height: 1.2;
 }
 
-.login-card input {
-  min-height: 48px;
-  padding: 0 14px;
-  border: 1px solid #b9b5c9;
-  border-radius: 8px;
+.login-label {
+  margin-bottom: 8px;
+  color: #3e3a52;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 72px 0 16px;
+  border: 1.5px solid #cfcbdc;
+  border-radius: 12px;
+  background: #faf9fd;
+  color: #25213a;
   font-size: 16px;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
 }
 
-.login-card input:focus-visible {
-  outline: 3px solid #78b7e8;
-  outline-offset: 1px;
+.password-field input::placeholder {
+  color: #9b97ab;
+}
+
+.password-field input:focus {
+  outline: none;
   border-color: #0176d3;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(1, 118, 211, 0.18);
 }
 
-.login-card button {
-  min-height: 48px;
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  min-height: 36px;
+  padding: 0 12px;
   border: 0;
   border-radius: 8px;
-  background: #0176d3;
-  color: #ffffff;
-  font-size: 16px;
+  background: transparent;
+  color: #0176d3;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 }
 
-.login-card button:hover {
-  background: #014486;
+.password-toggle:hover {
+  background: rgba(1, 118, 211, 0.08);
+}
+
+.password-toggle:focus-visible {
+  outline: 3px solid #78b7e8;
+  outline-offset: 0;
 }
 
 .login-error {
-  margin: 0;
+  margin: 10px 0 0;
   color: #ba0517;
   font-size: 14px;
+  text-align: left;
+}
+
+.login-submit {
+  min-height: 52px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0176d3, #5337be);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(1, 118, 211, 0.3);
+  transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms ease;
+}
+
+.login-submit:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(1, 118, 211, 0.38);
+}
+
+.login-submit:active {
+  transform: translateY(0);
+}
+
+.login-submit:focus-visible {
+  outline: 3px solid #78b7e8;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 32px 20px 24px;
+  }
+
+  .login-title {
+    font-size: 22px;
+  }
 }
 
 .logout-button {

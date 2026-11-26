@@ -48,6 +48,25 @@
     const input = document.querySelector("#password");
     const error = document.querySelector("#login-error");
     const logout = document.querySelector("#logout");
+    const home = document.querySelector("#home-content");
+
+    function showHome(isLoggedIn) {
+      document.documentElement.classList.toggle("is-authenticated", isLoggedIn);
+      form.hidden = isLoggedIn;
+      home.hidden = !isLoggedIn;
+    }
+
+    showHome(readAuth());
+
+    const toggle = document.querySelector("#password-toggle");
+    toggle.addEventListener("click", () => {
+      const show = input.type === "password";
+      input.type = show ? "text" : "password";
+      toggle.textContent = show ? "Hide" : "Show";
+      toggle.setAttribute("aria-label", show ? "Hide password" : "Show password");
+      toggle.setAttribute("aria-pressed", String(show));
+      input.focus();
+    });
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -55,7 +74,7 @@
       if ((await hash(input.value)) === PASSWORD_HASH) {
         writeAuth(true);
         form.reset();
-        document.documentElement.classList.add("is-authenticated");
+        showHome(true);
       } else {
         error.hidden = false;
         input.select();
@@ -64,12 +83,13 @@
 
     logout.addEventListener("click", () => {
       writeAuth(false);
-      document.documentElement.classList.remove("is-authenticated");
+      showHome(false);
       input.focus();
     });
 
-    if (!document.documentElement.classList.contains("is-authenticated")) {
-      input.focus();
+    if (!home.hidden) {
+      return;
     }
+    input.focus();
   });
 })();
