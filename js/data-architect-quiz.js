@@ -1,4 +1,3 @@
-const questions = window.dataArchitectQuestions;
 const form = document.querySelector("#quiz-form");
 const questionList = document.querySelector("#question-list");
 const summary = document.querySelector("#score-summary");
@@ -10,14 +9,20 @@ const requestedPart = Number(new URLSearchParams(window.location.search).get("pa
 const partNumber = Number.isInteger(requestedPart) && requestedPart >= 1 && requestedPart <= 6
   ? requestedPart
   : 0;
+const questions = partNumber === 1
+  ? window.dataArchitectQuestions
+  : partNumber === 2
+    ? window.dataArchitectPart2Questions
+    : [];
 const partHeading = document.querySelector("#part-number");
 const sampleNote = document.querySelector("#sample-note");
 const comingSoon = document.querySelector("#coming-soon");
 
 document.title = `Data Architect - Part ${partNumber}`;
 
-if (partNumber === 1) {
-  partHeading.textContent = "1";
+if (partNumber === 1 || partNumber === 2) {
+  partHeading.textContent = String(partNumber);
+  sampleNote.textContent = `This part contains ${questions.length} practice questions.`;
   renderQuestions();
   form.addEventListener("submit", submitQuiz);
   retryButton.addEventListener("click", resetQuiz);

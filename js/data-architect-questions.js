@@ -289,3 +289,117 @@ window.dataArchitectQuestions = [
     explanation: "Duplicate Management can prevent or alert on duplicate records, while Data.com Clean can identify potential record updates or duplicates."
   }
 ];
+
+window.dataArchitectPart2Questions = [
+  {
+    prompt: "UC is planning a massive Salesforce implementation with large data volumes. Roles, territories, groups, and sharing rules have been configured. The architect must load all required data, including user data, promptly. What should the architect do to minimize data-load times caused by system calculations?",
+    options: [
+      { id: "A", text: "Enable deferred sharing calculations and suspend sharing-rule calculations" },
+      { id: "B", text: "Load data through Data Loader and enable parallel processing" },
+      { id: "C", text: "Use the Bulk API and concurrent processing with multiple batches" },
+      { id: "D", text: "Enable granular locking to avoid UNABLE_TO_LOCK_ROW errors" }
+    ],
+    answers: ["A"],
+    explanation: "Deferring sharing calculations and suspending sharing-rule calculations avoids repeated recalculation during a large data load."
+  },
+  {
+    prompt: "UC has millions of Case records with Case History and SLA data. The compliance team needs historical Cases to remain accessible for 10 years for audit purposes. What solution should a data architect recommend?",
+    options: [
+      { id: "A", text: "Archive Case data using the Salesforce archiving process" },
+      { id: "B", text: "Purchase more data storage for the Case object" },
+      { id: "C", text: "Use a custom object to store archived Case data" },
+      { id: "D", text: "Use a custom Big Object to store archived Case data" }
+    ],
+    answers: ["D"],
+    explanation: "A custom Big Object is designed to store very large volumes of archival data for long-term access without consuming standard Salesforce data storage."
+  },
+  {
+    prompt: "A large telecommunications provider serves residential and business customers. Residential customers are Accounts, household members are Contacts, and businesses are Accounts. Some individuals use both residential and business services. What should a data architect recommend to provide a single view without creating duplicate customer records?",
+    options: [
+      { id: "A", text: "Create customers as Contacts and relate them to Business and Residential Accounts using Account Contact Relationships" },
+      { id: "B", text: "Create customers as Person Accounts and relate them to Business and Residential Accounts using Account Contact Relationships" },
+      { id: "C", text: "Create individual custom objects for customers and relate them to Business and Residential Accounts" },
+      { id: "D", text: "Create customers as Residential Accounts and use Parent Accounts to relate Business Accounts" }
+    ],
+    answers: ["B"],
+    explanation: "Person Accounts represent individual customers, and Account Contact Relationships can associate those individuals with their business relationships."
+  },
+  {
+    prompt: "Universal Containers has over 10 million Accounts with an average of 20 Opportunities per Account. A Sales Executive needs a daily report of all Opportunities in a specific stage. Which two considerations help ensure report performance is not degraded by the large data volume?",
+    options: [
+      { id: "A", text: "The number of queries running at one time" },
+      { id: "B", text: "The number of joins used in the report query" },
+      { id: "C", text: "The number of records returned by the report query" },
+      { id: "D", text: "The number of characters in the report query" }
+    ],
+    answers: ["B", "C"],
+    explanation: "More joins can increase query complexity, and returning more records increases the amount of data the report engine must process."
+  },
+  {
+    prompt: "A customer faces locking issues while importing large volumes of Order records that are children in a master-detail relationship with Account. What is the recommended way to avoid locking issues during import?",
+    options: [
+      { id: "A", text: "Import Accounts first, then Orders sorted by Order ID" },
+      { id: "B", text: "Import Accounts first, then Orders sorted by Account ID" },
+      { id: "C", text: "Change the relationship to Lookup, then change it back to master-detail after import" },
+      { id: "D", text: "Import Orders and Accounts separately, then populate Account IDs in Orders using batch Apex" }
+    ],
+    answers: ["B"],
+    explanation: "Loading parents first and grouping child records by Account ID reduces concurrent updates to the same parent and helps limit lock contention."
+  },
+  {
+    prompt: "A Salesforce customer categorizes each data element by owner, security level (such as confidential), and compliance types (such as GDPR, PII, or HIPAA). Administrators must generate compliance audit reports. What should a data architect recommend?",
+    options: [
+      { id: "A", text: "Extract field attributes with the Metadata API, then classify them and build reports from the extract" },
+      { id: "B", text: "Use field metadata attributes for compliance categories, data owner, and data sensitivity level" },
+      { id: "C", text: "Create a custom object and fields to capture compliance information and build custom reports" },
+      { id: "D", text: "Build reports for field information, then export it to classify and report for audits" }
+    ],
+    answers: ["B"],
+    explanation: "Field metadata attributes keep compliance category, ownership, and sensitivity information with each field so administrators can report on it."
+  },
+  {
+    prompt: "Universal Containers (UC) has Org A and has acquired a company with its own Salesforce org, Org B. UC will keep the orgs separate but wants to share Opportunities bidirectionally between them in near real time. Which three options should a data architect recommend?",
+    options: [
+      { id: "A", text: "Use Heroku Connect and Heroku Postgres to synchronize Opportunities bidirectionally" },
+      { id: "B", text: "Install a third-party AppExchange tool to handle the data sharing" },
+      { id: "C", text: "Use a scheduled Apex class to push Opportunity data between orgs daily" },
+      { id: "D", text: "Use middleware to send Opportunity data bidirectionally across the orgs" },
+      { id: "E", text: "Use Salesforce Connect and the cross-org adapter to expose Opportunities as external objects" }
+    ],
+    answers: ["A", "D", "E"],
+    explanation: "Heroku Connect with Postgres, middleware, and Salesforce Connect's cross-org adapter are viable near-real-time sharing approaches; a daily scheduled Apex sync is not near real time."
+  },
+  {
+    prompt: "A healthcare provider uses Salesforce to track patient care. Payment providers are organizations that pay for care, doctors provide care plans for multiple patients and need access to patient information, and patients are individuals who need care. Which Salesforce object mapping is optimal?",
+    options: [
+      { id: "A", text: "Patients as Contacts, payment providers as Accounts, and doctors as Accounts" },
+      { id: "B", text: "Patients as Person Accounts, payment providers as Accounts, and doctors as Contacts" },
+      { id: "C", text: "Patients as Person Accounts, payment providers as Accounts, and doctors as Person Accounts" },
+      { id: "D", text: "Patients as Accounts, payment providers as Accounts, and doctors as Person Accounts" }
+    ],
+    answers: ["C"],
+    explanation: "Person Accounts model individual patients and doctors, while payment-provider organizations are represented by Accounts."
+  },
+  {
+    prompt: "UC is implementing a data-classification policy for customer information across its internal systems, including Salesforce. How can it classify information maintained under both standard and custom objects?",
+    options: [
+      { id: "A", text: "Use AppExchange products to classify fields based on policy" },
+      { id: "B", text: "Use data-classification metadata fields available in field definitions" },
+      { id: "C", text: "Create a custom picklist field to capture the classification" },
+      { id: "D", text: "Build reports for customer information and validate it manually" }
+    ],
+    answers: ["B"],
+    explanation: "Field-level data-classification metadata can record sensitivity categories consistently for standard and custom object fields."
+  },
+  {
+    prompt: "Universal Containers is moving from a legacy CRM to Salesforce but will keep both systems running until Salesforce functionality is complete. Data must stay synchronized among Salesforce, the legacy CRM, and SAP. What is the recommendation?",
+    options: [
+      { id: "A", text: "Integrate the legacy CRM with Salesforce and keep them synchronized until the new functionality is deployed" },
+      { id: "B", text: "Do not integrate the legacy CRM with Salesforce, but integrate Salesforce with SAP" },
+      { id: "C", text: "Integrate SAP with Salesforce and with the legacy CRM, but do not integrate the legacy CRM directly with Salesforce" },
+      { id: "D", text: "Use an MDM solution linked to Salesforce and SAP" }
+    ],
+    answers: ["C", "D"],
+    explanation: "Using SAP as an integration point avoids a direct legacy-CRM-to-Salesforce connection, while MDM can coordinate data ownership and quality across systems."
+  }
+];

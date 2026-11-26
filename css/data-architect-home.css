@@ -92,7 +92,7 @@
   font-size: 14px;
 }
 
-.part-card:first-child .part-description {
+.part-card.is-available .part-description {
   color: #51418f;
   font-weight: 700;
 }
