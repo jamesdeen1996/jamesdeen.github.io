@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f4f7fb;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 760px;
+}
+
+.button-group button {
+  flex: 1;
+  min-height: 56px;
+  border: 0;
+  border-radius: 8px;
+  background: #0176d3;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(1, 118, 211, 0.18);
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.button-group button:hover {
+  background: #014486;
+  transform: translateY(-2px);
+}
+
+.button-group button:focus-visible {
+  outline: 3px solid #78b7e8;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group button {
+    width: 100%;
+    font-size: 16px;
+  }
+}
