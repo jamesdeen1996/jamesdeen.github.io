@@ -847,5 +847,822 @@ window.dataArchitectPart2Questions = [
     ],
     answers: ["A", "B", "E"],
     explanation: "The supplied source marks A, B, and E: identify the data to retain, map it to Salesforce objects, and implement it with fields. It notes that some study guides prefer D instead of E because copying the legacy model as-is is often discouraged."
+  },
+  {
+    prompt: "Universal Containers has millions of Cases and is running out of storage. Some groups need access to historical Cases for up to seven years. Which two solutions minimize performance and storage issues?",
+    options: [
+      { id: "A", text: "Export the Cases to flat files on an external system" },
+      { id: "B", text: "Create a custom object for Case history and report on it in Salesforce" },
+      { id: "C", text: "Use an on-premises archive with an integration to view archived data" },
+      { id: "D", text: "Archive the Cases to a Big Object and display them with Lightning components" }
+    ],
+    answers: ["C", "D"],
+    explanation: "An on-premises archive or Big Object can move older Cases out of regular Salesforce storage while keeping historical records accessible from Salesforce."
+  },
+  {
+    prompt: "Salesforce is the system of record for Leads, while an on-premises order management system is the system of record for Accounts and Contacts. Each system may keep its own version of a name, but Universal Containers wants one store that links records across systems. What approach fits?",
+    options: [
+      { id: "A", text: "Have Salesforce poll the order management system nightly for Accounts and Contacts" },
+      { id: "B", text: "Use an integration tool to send Accounts and Contacts from the order management system to Salesforce" },
+      { id: "C", text: "Use a master data management strategy to reconcile Leads, Accounts, and Contacts" },
+      { id: "D", text: "Use Streaming API to send Account and Contact data from Salesforce to the order management system" }
+    ],
+    answers: ["C"],
+    explanation: "MDM can maintain a master record with cross-references to each system's record IDs while allowing each system to retain its own values."
+  },
+  {
+    prompt: "Millions of rows are used for historical trend reports, causing performance and storage problems. Which two strategies should be recommended?",
+    options: [
+      { id: "A", text: "Use scheduled Batch Apex to copy aggregates into a custom object, then delete the source records" },
+      { id: "B", text: "Use Analytic Snapshots with a purge plan, report on the snapshots, and delete the source records" },
+      { id: "C", text: "Extract data with Data Loader, aggregate it, write it back to a custom object, and delete the source records" },
+      { id: "D", text: "Use a Salesforce archiving feature to archive older records off the storage limit" }
+    ],
+    answers: ["A", "D"],
+    explanation: "The supplied source marks A and D for reducing detailed records and archiving older data. It notes that Analytic Snapshots (B) are specifically designed for historical trend reporting and that some study guides instead select A and B."
+  },
+  {
+    prompt: "Contacts can attend many Conferences, and each Conference can have many Contacts. How should this many-to-many relationship be modeled?",
+    options: [
+      { id: "A", text: "Create a Contact Conference junction object with master-detail relationships to both objects" },
+      { id: "B", text: "Create a master-detail field on Contact" },
+      { id: "C", text: "Create a master-detail field on Conference" },
+      { id: "D", text: "Create a lookup field on Contact" }
+    ],
+    answers: ["A"],
+    explanation: "A junction object with two master-detail relationships models a many-to-many relationship; a single relationship field supports only a one-to-many relationship."
+  },
+  {
+    prompt: "Universal Containers sells directly to consumers and is moving about one million consumer records to Salesforce. What model gives the best use of Salesforce features while avoiding load issues?",
+    options: [
+      { id: "A", text: "Create a custom Individual_Consumer__c object" },
+      { id: "B", text: "Load consumers as Accounts only, without Contacts" },
+      { id: "C", text: "Create one Account and one Contact for each consumer" },
+      { id: "D", text: "Create one Account and load all consumers as Contacts under it" }
+    ],
+    answers: ["D"],
+    explanation: "The supplied source marks D to avoid creating an Account for every consumer. It also cautions that putting a million Contacts under one Account can cause account data skew and locking; many study guides instead select C or Person Accounts."
+  },
+  {
+    prompt: "Universal Containers is splitting its org. Org B has a very different data model, including objects, fields, and picklist values, and three million records must move from Org A to Org B within two months. Which strategy fits?",
+    options: [
+      { id: "A", text: "Use an ETL tool to orchestrate the migration" },
+      { id: "B", text: "Use Data Loader to export and Data Import Wizard to import" },
+      { id: "C", text: "Write a script that uses the Bulk API" },
+      { id: "D", text: "Use Salesforce CLI to query, export, and import the records" }
+    ],
+    answers: ["A"],
+    explanation: "An ETL tool can map and transform data for the redesigned model at high volume, with less custom code than a bespoke script."
+  },
+  {
+    prompt: "Attachments on Invoice__c must be classified by Type, such as Purchase Order or Receipt, so reports can count attachments per invoice by Type. What should the architect do?",
+    options: [
+      { id: "A", text: "Add values to the standard ContentType picklist on Attachment" },
+      { id: "B", text: "Add a ContentType picklist to the Attachment page layout" },
+      { id: "C", text: "Add a custom Type picklist to the standard Attachment object" },
+      { id: "D", text: "Create a custom object related to Invoice__c with a Type picklist" }
+    ],
+    answers: ["D"],
+    explanation: "The standard Attachment object cannot be extended with custom fields for this use. A related custom object can store the Type and support reporting."
+  },
+  {
+    prompt: "Universal Containers' on-premises billing system produces more than one million invoices a year. Sales users need to see account status, invoice history, and opportunities without leaving Salesforce. What should be used?",
+    options: [
+      { id: "A", text: "Migrate the last 12 months of invoices into a custom object" },
+      { id: "B", text: "Use an Apex callout to populate a related list on Account" },
+      { id: "C", text: "Build a mashup page that presents billing records inside Salesforce" },
+      { id: "D", text: "Build a Visualforce tab that displays the billing system in an iframe" }
+    ],
+    answers: ["C"],
+    explanation: "A mashup can show live billing data in context without copying more than a million invoices a year into Salesforce."
+  },
+  {
+    prompt: "Universal Containers has about one million Opportunities with 12 invoices each in an ERP that supports SOAP and OData. Reps need current invoice status and amount on each Opportunity. Considering performance and storage, how should invoices be modeled?",
+    options: [
+      { id: "A", text: "Use Streaming API to pull current status from the ERP" },
+      { id: "B", text: "Create an external object Invoice__x with a lookup to Opportunity" },
+      { id: "C", text: "Create a custom object Invoice__c with a master-detail relationship to Opportunity" },
+      { id: "D", text: "Create a custom object Invoice__c with a lookup to Opportunity" }
+    ],
+    answers: ["B"],
+    explanation: "An external object can read invoices live from the ERP over OData, keeping the 12 million records out of Salesforce storage and current."
+  },
+  {
+    prompt: "A customer wants to store latitude and longitude on a custom object. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Create formula fields using geolocation functions" },
+      { id: "B", text: "Create separate custom fields for latitude and longitude" },
+      { id: "C", text: "Create a geolocation custom field" },
+      { id: "D", text: "Install an AppExchange package" }
+    ],
+    answers: ["C"],
+    explanation: "A geolocation field stores latitude and longitude together and supports distance functions in formulas and SOQL."
+  },
+  {
+    prompt: "Universal Containers receives Leads from many sources and wants each Lead to have company profile and location data. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Have salespeople look up and enter the data" },
+      { id: "B", text: "Run reports to find Leads missing the data" },
+      { id: "C", text: "Use external data providers to enrich company profile and location data" },
+      { id: "D", text: "Export the data and have another team fill it in" }
+    ],
+    answers: ["C"],
+    explanation: "External data providers can enrich Leads automatically and at scale; the other options are manual or only identify missing data."
+  },
+  {
+    prompt: "Universal Containers creates hundreds of thousands of Conferences a year but has used only about 20 Venues. It wants a single Conference object with a Venue picklist instead of a separate Venue object. Which two considerations should the architect review?",
+    options: [
+      { id: "A", text: "Limits on master-detail relationships" },
+      { id: "B", text: "Org data storage limits" },
+      { id: "C", text: "Bulk API limitations on picklist fields" },
+      { id: "D", text: "Inline editing in standard list views" }
+    ],
+    answers: ["C", "D"],
+    explanation: "Picklists have considerations for bulk loads and list-view inline editing; new venue values must be maintained as picklist values. Removing the Venue object also avoids its storage and relationship overhead."
+  },
+  {
+    prompt: "Universal Containers needs to extract 100 million records from Salesforce for a new enterprise data warehouse. Which strategy gives maximum performance?",
+    options: [
+      { id: "A", text: "Use a third-party AppExchange tool" },
+      { id: "B", text: "Run successive REST API queries" },
+      { id: "C", text: "Use primary-key chunking with the Bulk API" },
+      { id: "D", text: "Use the Bulk API in parallel mode" }
+    ],
+    answers: ["C"],
+    explanation: "Primary-key chunking divides a very large Bulk API query into smaller record-ID ranges that can be processed independently."
+  },
+  {
+    prompt: "For security, Universal Containers must capture user actions such as login, logout, attachment download, and package installation. What is the recommended approach?",
+    options: [
+      { id: "A", text: "Field Audit Trail" },
+      { id: "B", text: "A custom object and trigger" },
+      { id: "C", text: "Event Monitoring" },
+      { id: "D", text: "A third-party AppExchange app" }
+    ],
+    answers: ["C"],
+    explanation: "Event Monitoring logs user events such as logins, downloads, and installations; Field Audit Trail tracks field-value changes."
+  },
+  {
+    prompt: "Administrators receive Unable to lock row errors when updating user records, such as moving users to new territories. What can prevent the errors?",
+    options: [
+      { id: "A", text: "Update fewer users at a time" },
+      { id: "B", text: "Enable granular locking" },
+      { id: "C", text: "Analyze Splunk queries for the offending records" },
+      { id: "D", text: "Increase the org's CPU" }
+    ],
+    answers: ["B"],
+    explanation: "Granular locking lets Salesforce lock only the affected portions of group and role tables, reducing contention during simultaneous updates."
+  },
+  {
+    prompt: "Each Account Plan must be related to an Account, but its access rules must differ from the Account's. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Make Account Plan a detail record in a master-detail relationship with Account" },
+      { id: "B", text: "Use master-detail with Account and add sharing rules" },
+      { id: "C", text: "Use a lookup to Account with no validation rule" },
+      { id: "D", text: "Use a lookup to Account with a validation rule requiring the Account" }
+    ],
+    answers: ["D"],
+    explanation: "A lookup allows Account Plan to have its own sharing model, while a validation rule or required lookup enforces the relationship."
+  },
+  {
+    prompt: "Universal Containers tracks shipment status on 200,000 Opportunities, and status has 10 possible values. What improves data quality and avoids data skew?",
+    options: [
+      { id: "A", text: "A picklist with values sorted alphabetically" },
+      { id: "B", text: "A master-detail relationship to a ShippingStatus__c object" },
+      { id: "C", text: "A lookup relationship to a ShippingStatus__c object" },
+      { id: "D", text: "A text field marked as an External ID" }
+    ],
+    answers: ["A"],
+    explanation: "A picklist constrains entries to approved values and avoids concentrating hundreds of thousands of records on a small number of status records."
+  },
+  {
+    prompt: "Account has a roll-up summary field that counts Contacts. A data load fails with Unable to lock row errors. What should the architect do?",
+    options: [
+      { id: "A", text: "Use the Data Loader platform API" },
+      { id: "B", text: "Run the batch in parallel mode with smaller batches" },
+      { id: "C", text: "Run the batch in serial mode with smaller batches" },
+      { id: "D", text: "Defer roll-up summary calculation during migration" }
+    ],
+    answers: ["C"],
+    explanation: "Serial processing with smaller batches prevents parallel batches from trying to update the same parent Account's roll-up summary at once."
+  },
+  {
+    prompt: "Universal Containers will use Salesforce to track customer complaints, provide product white papers, and offer fee-based support. Which license do users need?",
+    options: [
+      { id: "A", text: "Lightning Platform Starter" },
+      { id: "B", text: "Service Cloud" },
+      { id: "C", text: "Salesforce" },
+      { id: "D", text: "Sales Cloud" }
+    ],
+    answers: ["B"],
+    explanation: "Cases, Knowledge, and Entitlements or Service Contracts are Service Cloud capabilities."
+  },
+  {
+    prompt: "Universal Containers is planning a large migration from a legacy CRM. Which three things optimize load performance?",
+    options: [
+      { id: "A", text: "Time zones of the user loading data" },
+      { id: "B", text: "Remove custom indexes on the data being loaded" },
+      { id: "C", text: "Whether the legacy system is still in use" },
+      { id: "D", text: "Defer sharing calculations" },
+      { id: "E", text: "Deactivate approval processes and workflow rules" }
+    ],
+    answers: ["B", "D", "E"],
+    explanation: "Removing index upkeep, deferring sharing calculations, and deactivating automation reduce per-record work during a large load."
+  },
+  {
+    prompt: "Sales managers want to explore data on mobile, drill down, and add ad-hoc filters while on the move. What is the recommended solution?",
+    options: [
+      { id: "A", text: "Use an external reporting tool and link to it from Salesforce" },
+      { id: "B", text: "Embed an external reporting tool with the Canvas toolkit" },
+      { id: "C", text: "Use a standard Salesforce dashboard tied to filtered reports" },
+      { id: "D", text: "Use a CRM Analytics dashboard with ad-hoc lenses and drill-down" }
+    ],
+    answers: ["D"],
+    explanation: "CRM Analytics supports interactive exploration with lenses, drill-down, and filters across devices; standard dashboards offer more limited exploration."
+  },
+  {
+    prompt: "Universal Containers uses classic encryption on custom fields and makes weekly data exports for backup. The exports contain masked values. How can decrypted values be exported?",
+    options: [
+      { id: "A", text: "Give a standard profile for the migration user the View Encrypted Data permission" },
+      { id: "B", text: "Copy encrypted values into another field and export that field" },
+      { id: "C", text: "Decrypt the values with an Apex class before export" },
+      { id: "D", text: "Give a custom profile for the migration user the View Encrypted Data permission" }
+    ],
+    answers: ["A"],
+    explanation: "The supplied source marks A, but notes that standard profiles cannot be edited and its own explanation points to B. In practice, a custom profile with View Encrypted Data (D) is the usual answer; verify against the intended source."
+  },
+  {
+    prompt: "The standard Product object cannot represent Universal Containers' hierarchical product structure. How can it support the hierarchy for synchronization from the product master?",
+    options: [
+      { id: "A", text: "Create a custom lookup on Product pointing to the child record" },
+      { id: "B", text: "Create a custom lookup on Product pointing to the parent record" },
+      { id: "C", text: "Create a custom master-detail relationship on Product pointing to the child record" },
+      { id: "D", text: "Create an Apex trigger to synchronize the Product Family picklist" }
+    ],
+    answers: ["B"],
+    explanation: "A self-lookup to the parent lets each product point up the hierarchy to any depth. A product can have many children, and standard objects cannot be the detail side of a master-detail relationship."
+  },
+  {
+    prompt: "Universal Containers has billing, support, and CRM systems and a new MDM system that is the customer source of truth. Which MDM data element enables reporting across systems?",
+    options: [
+      { id: "A", text: "A global unique customer number" },
+      { id: "B", text: "Email address" },
+      { id: "C", text: "Phone number" },
+      { id: "D", text: "Full name" }
+    ],
+    answers: ["A"],
+    explanation: "A global unique ID links the same customer's records in every system; email, phone, and name can change or repeat."
+  },
+  {
+    prompt: "Which three skinny-table traits improve performance?",
+    options: [
+      { id: "A", text: "Contain frequently used fields, avoiding joins" },
+      { id: "B", text: "Allow custom indexes on multi-select picklists" },
+      { id: "C", text: "Provide a view across multiple objects" },
+      { id: "D", text: "Stay synchronized with changes in source tables" },
+      { id: "E", text: "Exclude records that are in the Recycle Bin" }
+    ],
+    answers: ["A", "D", "E"],
+    explanation: "A skinny table keeps frequently used fields from one object together, excludes soft-deleted records, and stays synchronized. It cannot span objects or index multi-select picklists."
+  },
+  {
+    prompt: "Get Cloudy Consulting's reps have incomplete Contact data and interpret it inconsistently. The company has selected key fields. Which two actions help review completeness and consistency?",
+    options: [
+      { id: "A", text: "Report on when key fields were last updated" },
+      { id: "B", text: "Create one report per key field, grouped by that field, to see how values vary" },
+      { id: "C", text: "Report the percentage of blanks in important fields" },
+      { id: "D", text: "Create a process that fills defaults into blank fields" }
+    ],
+    answers: ["A", "C"],
+    explanation: "The supplied source marks A and C: update dates reveal stale data, and blank percentages measure completeness. It notes that grouping values in B directly measures consistency, so some guides select B and C."
+  },
+  {
+    prompt: "A custom pricing engine evaluates state, then city, then ZIP code. Criteria should be changeable with minimal code changes. Where should they be stored?",
+    options: [
+      { id: "A", text: "A custom object" },
+      { id: "B", text: "Hard-coded in the pricing engine" },
+      { id: "C", text: "Custom metadata types" },
+      { id: "D", text: "Price books" }
+    ],
+    answers: ["C"],
+    explanation: "Custom metadata stores deployable configuration that code can read at run time, so criteria can change without editing the pricing engine."
+  },
+  {
+    prompt: "Universal Containers wants to automatically archive inactive Accounts older than three years. Archived data does not need to remain accessible in Salesforce. Which two approaches work?",
+    options: [
+      { id: "A", text: "Export with Workbench" },
+      { id: "B", text: "Schedule a weekly export from the Salesforce UI" },
+      { id: "C", text: "Schedule export-and-delete jobs with an ETL tool" },
+      { id: "D", text: "Schedule export-and-delete jobs with Data Loader command line" }
+    ],
+    answers: ["C", "D"],
+    explanation: "An ETL tool or Data Loader command line can run scheduled, filtered export-and-delete jobs. Workbench is manual, and scheduled UI exports do not delete records."
+  },
+  {
+    prompt: "Vehicle__c and Service_History__c are linked by a lookup. A weekly two-hour batch synchronization encounters record-locking errors. What avoids locking without hurting performance?",
+    options: [
+      { id: "A", text: "Use Bulk API parallel mode" },
+      { id: "B", text: "Use Bulk API serial mode" },
+      { id: "C", text: "Insert into a staging object, then move records with Batch Apex" },
+      { id: "D", text: "Set the lookup to clear its value when the parent is deleted" }
+    ],
+    answers: ["B"],
+    explanation: "Serial mode processes one batch at a time, so batches do not compete for locks on the same parent records. Sorting by parent ID before loading can also help."
+  },
+  {
+    prompt: "Universal Containers' shipment data is on-premises in a system that is not OData-enabled, and there is no middleware. A custom app needs real-time access. Which Salesforce Connect approach fits?",
+    options: [
+      { id: "A", text: "Use an Apex REST callout to the external API" },
+      { id: "B", text: "Use a process that calls an invocable web service" },
+      { id: "C", text: "Migrate to Heroku and register Postgres as a data source" },
+      { id: "D", text: "Build a custom adapter with the Apex Connector Framework" }
+    ],
+    answers: ["D"],
+    explanation: "The Apex Connector Framework lets a custom Salesforce Connect adapter expose an external API as real-time external objects without OData or middleware."
+  },
+  {
+    prompt: "Universal Containers' architecture team is building a data dictionary describing business entities across its systems. Which two common techniques can record how entities are defined?",
+    options: [
+      { id: "A", text: "SOQL" },
+      { id: "B", text: "A data definition language (DDL)" },
+      { id: "C", text: "An entity relationship diagram (ERD)" },
+      { id: "D", text: "The Salesforce Metadata API" }
+    ],
+    answers: ["C", "D"],
+    explanation: "The supplied source marks C and D: an ERD captures entities and relationships, and the Metadata API retrieves Salesforce definitions. It notes that a cross-system dictionary may instead use DDL and ERD (B and C)."
+  },
+  {
+    prompt: "Several systems hold customer data and are connected point to point. Customers complain about inconsistent information. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Improve the point-to-point integrations" },
+      { id: "B", text: "Cleanse each system" },
+      { id: "C", text: "Run a one-time synchronization to reset inconsistencies" },
+      { id: "D", text: "Create an MDM customer master with centralized integrations" }
+    ],
+    answers: ["D"],
+    explanation: "An MDM customer master provides an authoritative record and centralized integration, addressing the root cause rather than applying a one-time fix."
+  },
+  {
+    prompt: "Universal Containers is running out of storage and wants to keep two years of data in Salesforce while archiving older data. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Create a third-party backup of all data" },
+      { id: "B", text: "Move all records off-platform and delete them all" },
+      { id: "C", text: "Move records older than two years off-platform and delete them" },
+      { id: "D", text: "Move all records off-platform and delete only old ones" }
+    ],
+    answers: ["C"],
+    explanation: "Archiving and deleting only records older than two years frees storage while keeping the most recent two years in Salesforce."
+  },
+  {
+    prompt: "Universal Containers wants to preserve original Created and Last Modified dates and retain ownership by inactive users during a migration. Which two settings should it enable?",
+    options: [
+      { id: "A", text: "Log a case with Salesforce to update the fields" },
+      { id: "B", text: "Update Records with Inactive Owners" },
+      { id: "C", text: "Set Audit Fields upon Record Creation" },
+      { id: "D", text: "Grant Modify All and View All" }
+    ],
+    answers: ["B", "C"],
+    explanation: "Set Audit Fields permits eligible audit dates to be supplied during record creation, and Update Records with Inactive Owners allows records to be owned by inactive users."
+  },
+  {
+    prompt: "Northern Trail Outfitters stores retail customers as Person Accounts, commercial customers as Contacts, employees as Users, and prospects as Leads. It needs a standard way to manage communication preferences for all of them. What should it use?",
+    options: [
+      { id: "A", text: "Custom preference fields on Lead, Person Account, and User" },
+      { id: "B", text: "Cases to validate preferences" },
+      { id: "C", text: "A custom preferences object related to each record" },
+      { id: "D", text: "The Individual object related to Lead, Person Account, and User" }
+    ],
+    answers: ["D"],
+    explanation: "The standard Individual object manages privacy and contact preferences and can be associated with Leads, Contacts or Person Accounts, and Users."
+  },
+  {
+    prompt: "Universal Containers loads third-party prospect CSVs into Leads and then syncs them to Marketing Cloud. Leads now consume too much storage. What avoids storage issues going forward?",
+    options: [
+      { id: "A", text: "Load CSVs into CRM Analytics and sync them to Marketing Cloud" },
+      { id: "B", text: "Load CSVs into an external database and sync them to Marketing Cloud" },
+      { id: "C", text: "Load prospects directly into Marketing Cloud and reconcile them when they convert" },
+      { id: "D", text: "Keep the Lead process and delete Leads after syncing" }
+    ],
+    answers: ["C"],
+    explanation: "Prospects that are only used for marketing can be loaded directly into Marketing Cloud, keeping them out of Sales Cloud storage until conversion."
+  },
+  {
+    prompt: "Northern Trail Outfitters wants to virtualize and report on enterprise data warehouse data through Salesforce Connect, running thousands of reports daily across 10–15 external objects. What should the architect consider first?",
+    options: [
+      { id: "A", text: "Maximum records returned" },
+      { id: "B", text: "OData callout limits" },
+      { id: "C", text: "Maximum page size for server-driven paging" },
+      { id: "D", text: "Maximum external objects per org" }
+    ],
+    answers: ["B"],
+    explanation: "Reports on external objects make callouts to the external system, so OData callout limits could be reached with thousands of reports per day."
+  },
+  {
+    prompt: "DreamHouse Realty's Project object is Private and has roll-up summaries for resources, hours, and work items. Large volumes of time entries are loaded regularly. What should the architect consider?",
+    options: [
+      { id: "A", text: "Load all data after deferring sharing calculations" },
+      { id: "B", text: "Use workflow instead of roll-up summaries" },
+      { id: "C", text: "Use triggers instead of roll-up summaries" },
+      { id: "D", text: "Load using External IDs to link records to parents" }
+    ],
+    answers: ["A"],
+    explanation: "Deferring sharing calculations avoids recalculating sharing on every insert and reduces locking; sharing can be recalculated once after the load. The source notes this is similar to Question 45."
+  },
+  {
+    prompt: "Universal Containers' org has hundreds of validation rules and triggers that were not designed for data loads. It will import 100,000 records over a weekend. How can it avoid unwanted results?",
+    options: [
+      { id: "A", text: "Disable validation rules, triggers, and other automation during the load" },
+      { id: "B", text: "Define duplicate and matching rules" },
+      { id: "C", text: "Import in smaller batches over 24 hours" },
+      { id: "D", text: "Bulkify the triggers" }
+    ],
+    answers: ["A"],
+    explanation: "Temporarily disabling automation that was not designed for bulk loads can prevent errors and unwanted updates; re-enable it after the import."
+  },
+  {
+    prompt: "Universal Containers is adding a B2C offering alongside its B2B business, which uses Accounts. It expects more than 50 million individual consumers across 50 regions and does not need household accounts. What data model is recommended?",
+    options: [
+      { id: "A", text: "Use Person Accounts with a new B2C page layout" },
+      { id: "B", text: "Use Account with a new B2C record type" },
+      { id: "C", text: "Add a B2C value to Account Type" },
+      { id: "D", text: "Create 50 regional umbrella Accounts with consumers as Contacts" }
+    ],
+    answers: ["A"],
+    explanation: "Person Accounts model individual consumers alongside business Accounts. Umbrella Accounts with millions of Contacts would create severe account data skew."
+  },
+  {
+    prompt: "Northern Trail Outfitters has five million customers—households, businesses, and individuals—duplicated across many systems, with no consistent way to identify a customer. Which three actions address the problem?",
+    options: [
+      { id: "A", text: "Create a unique global customer ID and store it in every system" },
+      { id: "B", text: "Use Salesforce Change Data Capture to synchronize customer data to all systems" },
+      { id: "C", text: "Use a de-duplication tool to merge duplicates across systems" },
+      { id: "D", text: "Copy customer records across systems with two-way synchronization" },
+      { id: "E", text: "Use an external customer master database as the system of truth and synchronize it to all systems" }
+    ],
+    answers: ["A", "C", "E"],
+    explanation: "A global ID identifies customers everywhere, de-duplication cleans existing records, and an external master helps maintain consistent data going forward."
+  },
+  {
+    prompt: "Northern Trail Outfitters extracts 50 million records from one custom object every day and encounters query timeouts. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Use an auto-number and formula field to chunk records during extraction" },
+      { id: "B", text: "Use REST API, which chunks records into groups of 200" },
+      { id: "C", text: "Use an ETL tool to extract the data" },
+      { id: "D", text: "Ask Salesforce Support to increase the query timeout" }
+    ],
+    answers: ["C"],
+    explanation: "The supplied source marks an ETL tool (C), but notes that chunking a huge query into smaller selective queries addresses the timeout and that many guides select A."
+  },
+  {
+    prompt: "Which two classifications are available through Salesforce Data Classification?",
+    options: [
+      { id: "A", text: "Reference data policy" },
+      { id: "B", text: "Data governance policy" },
+      { id: "C", text: "Data sensitivity level" },
+      { id: "D", text: "Compliance categorization" }
+    ],
+    answers: ["C", "D"],
+    explanation: "Salesforce field classification metadata includes Data Sensitivity Level and Compliance Categorization, as well as other attributes such as Data Owner and Field Usage."
+  },
+  {
+    prompt: "Sales Cloud is used for sales and the ERP is the customer master. Sales users report duplicate Accounts and poor data quality. Which two solutions help?",
+    options: [
+      { id: "A", text: "Run a nightly batch job to de-duplicate and merge Accounts" },
+      { id: "B", text: "Integrate with the ERP and make it the system of truth" },
+      { id: "C", text: "Run a nightly synchronization from the ERP to Salesforce" },
+      { id: "D", text: "Use a de-duplication solution and define clear Account ownership in Salesforce" }
+    ],
+    answers: ["B", "D"],
+    explanation: "Making the ERP the source of truth through integration improves consistency, while de-duplication and clear ownership help prevent and clean Salesforce duplicates."
+  },
+  {
+    prompt: "Sales Orders live in an on-premises ERP, number more than 150 million, must be shown in Salesforce, and will not be updated there. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Custom objects" },
+      { id: "B", text: "Custom Big Objects" },
+      { id: "C", text: "External objects" },
+      { id: "D", text: "The standard Order object" }
+    ],
+    answers: ["C"],
+    explanation: "External objects provide access to ERP data without copying more than 150 million read-only records into Salesforce storage."
+  },
+  {
+    prompt: "Fifteen thousand servers report status every 10 minutes, reports are kept for five years, and managers need one week of detail in Salesforce. Which two limits should the architect consider?",
+    options: [
+      { id: "A", text: "Data storage limits" },
+      { id: "B", text: "Workflow rule limits" },
+      { id: "C", text: "API request limits" },
+      { id: "D", text: "Web service callout limits" }
+    ],
+    answers: ["A", "C"],
+    explanation: "The volume of incoming status records affects both API usage during ingestion and data storage for retained records."
+  },
+  {
+    prompt: "Northern Trail Outfitters' pricing system is the trusted source for Opportunity Amount and updates it daily, overwriting sales reps' changes. Opportunity Forecasts use Amount. How should this be fixed?",
+    options: [
+      { id: "A", text: "Create a custom amount field that the pricing system updates, separate from the reps' field" },
+      { id: "B", text: "Have the pricing system update Amount only when it is blank" },
+      { id: "C", text: "Make Amount read-only for sales users with field-level security" },
+      { id: "D", text: "Create a custom amount field that reps update, separate from the pricing-system field" }
+    ],
+    answers: ["C"],
+    explanation: "Because the pricing system owns Amount and forecasts use that field, making it read-only to sales users prevents conflicting edits while preserving the trusted value."
+  },
+  {
+    prompt: "Universal Containers loads large volumes of Leads weekly with validation rules disabled. How can it maintain data quality?",
+    options: [
+      { id: "A", text: "Re-activate validation rules after loading" },
+      { id: "B", text: "Keep validation rules enabled during the load" },
+      { id: "C", text: "Run a custom Apex batch to fix data quality after loading" },
+      { id: "D", text: "Preprocess the Lead data for quality before loading" }
+    ],
+    answers: ["D"],
+    explanation: "Preprocessing the data ensures poor-quality records are corrected before they enter Salesforce; reactivating validation rules does not validate records already loaded."
+  },
+  {
+    prompt: "Which two approaches help a company avoid duplicate B2C customers?",
+    options: [
+      { id: "A", text: "Use Duplicate Management" },
+      { id: "B", text: "Use an Enterprise Service Bus" },
+      { id: "C", text: "Use Data.com Clean" },
+      { id: "D", text: "Use a data warehouse" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Duplicate and matching rules can flag or block duplicate records, while Data.com Clean can compare records with reference data."
+  },
+  {
+    prompt: "Universal Containers creates Leads with Apex jobs and wants failures reported to the business. What can Apex offer?",
+    options: [
+      { id: "A", text: "Store Leads in a custom object and report on unprocessed ones" },
+      { id: "B", text: "Save Apex errors in a custom object the business can report on" },
+      { id: "C", text: "Use Apex to email failures to the business when they happen" },
+      { id: "D", text: "Install an AppExchange package to clean Leads first" }
+    ],
+    answers: ["C"],
+    explanation: "The supplied source marks C for sending email notifications, but notes that its explanation describes logging errors to a reportable custom object (B), which better matches the reporting requirement and is selected by many guides."
+  },
+  {
+    prompt: "Universal Containers wants its 100,000 mostly US Accounts continuously enriched and cleansed, with easy monitoring of data-quality metrics. What should it use?",
+    options: [
+      { id: "A", text: "Data.com Clean, configured declaratively" },
+      { id: "B", text: "Batch Apex calling a third-party data-quality API" },
+      { id: "C", text: "Data.com Prospector, configured declaratively" },
+      { id: "D", text: "An Account trigger calling a third-party API" }
+    ],
+    answers: ["A"],
+    explanation: "Data.com Clean is a declarative service for matching and enriching records and includes data-quality dashboards and reports; Prospector is for finding new prospects."
+  },
+  {
+    prompt: "Universal Containers needs to export one million Contacts to a business intelligence system without timeouts. What should it use?",
+    options: [
+      { id: "A", text: "SOAP API" },
+      { id: "B", text: "Bulk API" },
+      { id: "C", text: "GZIP compression" },
+      { id: "D", text: "A scheduled Batch Apex job" }
+    ],
+    answers: ["C"],
+    explanation: "The supplied source marks GZIP compression (C), but notes that its own explanation supports Bulk API (B), the standard choice for exporting large data volumes without timeouts."
+  },
+  {
+    prompt: "Many Accounts will be loaded at cutover without known owners. Which two ownership options reduce performance problems?",
+    options: [
+      { id: "A", text: "Assign them to a system user with no role" },
+      { id: "B", text: "Assign them to a system user in the lowest role in the hierarchy" },
+      { id: "C", text: "Assign them to the VP of Sales, who reports to the senior VP" },
+      { id: "D", text: "Assign them to a system user in the highest role" }
+    ],
+    answers: ["A", "B"],
+    explanation: "Keeping a high-volume owner outside the role hierarchy or at its bottom reduces ownership skew and the sharing recalculations that can flow up the hierarchy."
+  },
+  {
+    prompt: "Accounts are stored in Salesforce and Invoices in an ERP exposed as an external object. Universal Containers wants to see both in one report in one place. Which two options fit?",
+    options: [
+      { id: "A", text: "Create a report in an external system that combines both sources" },
+      { id: "B", text: "Create a Salesforce report combining Account and the Invoice external object" },
+      { id: "C", text: "Build a Visualforce page combining Account and Invoice external-object data" },
+      { id: "D", text: "Create separate Salesforce reports and combine them in a dashboard" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Standard Salesforce report types do not easily join a standard object with an external object; an external reporting system or a custom page can combine the data."
+  },
+  {
+    prompt: "A phased Salesforce rollout has three deployments over a year and well-documented requirements. Which two methods help trace configuration back to requirements?",
+    options: [
+      { id: "A", text: "Review the Setup Audit Trail" },
+      { id: "B", text: "Put the business purpose in each field's Description" },
+      { id: "C", text: "Maintain a data dictionary with each field's justification" },
+      { id: "D", text: "Store metadata in source control through the IDE" }
+    ],
+    answers: ["B", "D"],
+    explanation: "The supplied source marks field descriptions and source control (B and D), but notes that a data dictionary (C) serves a similar purpose and that some guides select C and D."
+  },
+  {
+    prompt: "A call center receives 10 million calls and creates 100 million Cases per month, linked by lookup to a custom Call object. Universal Containers wants reports and dashboards on Case types per call. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Archive data to a warehouse and analyze it there" },
+      { id: "B", text: "Use Big Objects for archiving and CRM Analytics for reporting" },
+      { id: "C", text: "Create custom objects to store aggregated data" },
+      { id: "D", text: "Use standard reports on Case and the IVR custom object" }
+    ],
+    answers: ["B"],
+    explanation: "Big Objects support very large data volumes, and CRM Analytics can analyze the data at scale; standard reports are not suited to this volume."
+  },
+  {
+    prompt: "Universal Containers has frequent group-membership locking that blocks manual and automated updates running at the same time. What can fix it?",
+    options: [
+      { id: "A", text: "Enable granular locking" },
+      { id: "B", text: "Enable parallel sharing-rule calculation" },
+      { id: "C", text: "Enable deferred sharing calculation" },
+      { id: "D", text: "Enable implicit sharing" }
+    ],
+    answers: ["A"],
+    explanation: "Granular locking limits locks to the affected parts of group tables, allowing more concurrent group-membership and sharing operations."
+  },
+  {
+    prompt: "Northern Trail Outfitters has 1,000 franchisees who need a portal to view product information, track large customer sales and Opportunities, and run sales reports and dashboards. Which license should they use?",
+    options: [
+      { id: "A", text: "Sales Cloud" },
+      { id: "B", text: "Lightning Platform" },
+      { id: "C", text: "Customer Community" },
+      { id: "D", text: "Partner Community" }
+    ],
+    answers: ["D"],
+    explanation: "Partner Community supports external users working with sales records, Opportunities, reports, and dashboards; Customer Community does not provide Opportunity access."
+  },
+  {
+    prompt: "Universal Containers has outgrown native reports and dashboards in a multi-system ERP environment. Which two approaches provide deeper analytics?",
+    options: [
+      { id: "A", text: "AppExchange analytics applications" },
+      { id: "B", text: "Wave Analytics (CRM Analytics)" },
+      { id: "C", text: "Weekly snapshots" },
+      { id: "D", text: "Setup Audit Trail" }
+    ],
+    answers: ["A", "B"],
+    explanation: "CRM Analytics and AppExchange business-intelligence applications can provide advanced analysis across data sources; snapshots only capture trends and the audit trail tracks configuration changes."
+  },
+  {
+    prompt: "Northern Trail Outfitters is evaluating Big Objects for large volumes of asset data and needs weekly reports. Which two native tools can be used?",
+    options: [
+      { id: "A", text: "Standard reports and dashboards" },
+      { id: "B", text: "Async SOQL to write results into a custom object" },
+      { id: "C", text: "Standard SOQL queries" },
+      { id: "D", text: "Einstein Analytics" }
+    ],
+    answers: ["B", "D"],
+    explanation: "The supplied source marks Async SOQL and Einstein Analytics; standard reports do not support Big Objects. Note that Async SOQL has since been retired."
+  },
+  {
+    prompt: "Universal Containers is migrating Account data from two aging systems. Which two design considerations minimize duplication?",
+    options: [
+      { id: "A", text: "Create a workflow to check for and prevent duplicates" },
+      { id: "B", text: "Clean the data before importing it" },
+      { id: "C", text: "Use Salesforce Matching Rules and Duplicate Rules" },
+      { id: "D", text: "Import the data concurrently" }
+    ],
+    answers: ["B", "C"],
+    explanation: "Cleaning data before import removes existing duplicates, while Matching Rules and Duplicate Rules help prevent new ones."
+  },
+  {
+    prompt: "Two million Opportunities will be loaded in batches with the Bulk API in parallel mode. What should the architect consider?",
+    options: [
+      { id: "A", text: "Sort batches by Name" },
+      { id: "B", text: "Order batches by an auto-number field" },
+      { id: "C", text: "Index Opportunity text fields" },
+      { id: "D", text: "Group batches by AccountId" }
+    ],
+    answers: ["D"],
+    explanation: "Opportunity inserts can lock their parent Accounts. Grouping records by AccountId keeps records for the same parent together and reduces cross-batch lock contention."
+  },
+  {
+    prompt: "Smart containers send temperature and humidity readings every 10 minutes. There are 10,000 containers now and up to 50,000 within five years. Users need current and historical readings per container. What is recommended?",
+    options: [
+      { id: "A", text: "Store temperature and humidity on Container and overwrite them with each reading" },
+      { id: "B", text: "Create a Container Reading child record for every reading" },
+      { id: "C", text: "Show the latest reading in Lightning and keep history in a data warehouse" },
+      { id: "D", text: "Create a Container Reading child record for every reading and archive hourly" }
+    ],
+    answers: ["D"],
+    explanation: "A child record preserves reading history, while an archiving process controls volume; 50,000 containers at 144 readings per day would otherwise create more than seven million records daily."
+  },
+  {
+    prompt: "A customer often upserts Contacts with Data Loader to avoid duplicates. What common error should the architect watch for?",
+    options: [
+      { id: "A", text: "Duplicate External ID values in the same CSV file" },
+      { id: "B", text: "Inserts and updates in the same file" },
+      { id: "C", text: "Duplicate Contact names causing failure" },
+      { id: "D", text: "Using the wrong External ID causing failure" }
+    ],
+    answers: ["A"],
+    explanation: "If the same External ID appears more than once in an upsert file, Salesforce cannot determine which row to apply and those rows fail."
+  },
+  {
+    prompt: "What two outcomes does enterprise data governance improve?",
+    options: [
+      { id: "A", text: "Data integrity" },
+      { id: "B", text: "Data distribution" },
+      { id: "C", text: "Data usability" },
+      { id: "D", text: "Data modeling" }
+    ],
+    answers: ["A", "C"],
+    explanation: "Data governance improves accuracy and consistency (integrity) and makes data easier to find, understand, and use (usability)."
+  },
+  {
+    prompt: "Which two approaches help maintain Contact data quality?",
+    options: [
+      { id: "A", text: "Use a private sharing model" },
+      { id: "B", text: "Use Salesforce Duplicate Management" },
+      { id: "C", text: "Use validation rules on create and edit" },
+      { id: "D", text: "Use workflow to delete duplicates" }
+    ],
+    answers: ["B", "C"],
+    explanation: "Duplicate Management prevents or flags duplicate Contacts, and validation rules enforce correct values during entry."
+  },
+  {
+    prompt: "Universal Containers loads 500,000 Leads and 10,000 Campaigns each week. Leads are shared by sharing rules and added to Campaigns by triggers. Agents work Leads for six months, records are kept for one year for reference, and compliance requires three years of retention. Which statement is true?",
+    options: [
+      { id: "A", text: "Use Salesforce Backup and Recovery as the archive" },
+      { id: "B", text: "Custom storage objects avoid counting against storage limits" },
+      { id: "C", text: "The Recycle Bin guarantees records are stored for 15 days after deletion" },
+      { id: "D", text: "Use a tier-based approach to classify storage needs" }
+    ],
+    answers: ["D"],
+    explanation: "A tiered approach can store active, reference, and compliance-only data according to its usage and retention needs; backup and custom objects are not substitutes for archiving."
+  },
+  {
+    prompt: "A company will categorize 500,000 customers as Gold, Silver, or Bronze, distributed evenly, as they buy a support service. About 1% buy each month for five years. What ensures long-term performance?",
+    options: [
+      { id: "A", text: "Use a global picklist with the three values on Account" },
+      { id: "B", text: "Use a picklist field on Account with the three values" },
+      { id: "C", text: "Create a Categories object with a master-detail relationship from Account" },
+      { id: "D", text: "Create a Categories object with a lookup relationship from Account" }
+    ],
+    answers: ["B"],
+    explanation: "A picklist avoids lookup skew that would result from hundreds of thousands of Accounts relating to only three category records. A global picklist adds no benefit if only one object uses it."
+  },
+  {
+    prompt: "Two systems' customer records will be integrated into Account using MDM. How should the architect decide the system of record for each field?",
+    options: [
+      { id: "A", text: "MDM decides it, so the architect does not need to consider it" },
+      { id: "B", text: "Have key stakeholders review fields with the same purpose across systems and how they will be used" },
+      { id: "C", text: "Review schemas; differently named fields must always become separate fields" },
+      { id: "D", text: "Let the last load overwrite fields, without assigning a system of record" }
+    ],
+    answers: ["B"],
+    explanation: "Field-level ownership is a business decision that stakeholders must agree on; MDM enforces the resulting rules."
+  },
+  {
+    prompt: "Universal Containers needs to track history on 100 Opportunity fields. Which two solutions should it consider?",
+    options: [
+      { id: "A", text: "Create a custom object that stores a copy of the record when it changes" },
+      { id: "B", text: "Create a custom object that stores previous and new field values" },
+      { id: "C", text: "Use Analytic Snapshots of the record when it changes" },
+      { id: "D", text: "Select all 100 fields in Opportunity history tracking" }
+    ],
+    answers: ["A", "B"],
+    explanation: "Standard field history tracking supports fewer fields than required here, so a custom history solution is needed; snapshots run on a schedule rather than on each change."
+  },
+  {
+    prompt: "Northern Trail Outfitters wants a consent form recording customer authorization for marketing. What should the architect recommend?",
+    options: [
+      { id: "A", text: "Use custom fields" },
+      { id: "B", text: "Create a custom object" },
+      { id: "C", text: "Use the Authorization Form Consent object" },
+      { id: "D", text: "Use an AppExchange solution" }
+    ],
+    answers: ["C"],
+    explanation: "Authorization Form Consent is the standard object for recording consent, including details such as capture date, source, and status."
+  },
+  {
+    prompt: "Customers are called by several reps who do not know about one another's calls. What data-quality problem could cause this?",
+    options: [
+      { id: "A", text: "Missing phone numbers on Contacts" },
+      { id: "B", text: "Changed phone numbers on Contacts" },
+      { id: "C", text: "Duplicate Contact records" },
+      { id: "D", text: "Duplicate Activity records on a Contact" }
+    ],
+    answers: ["C"],
+    explanation: "If one customer exists as multiple Contact records, reps may log calls on separate records and not see one another's activity."
+  },
+  {
+    prompt: "Which standard Salesforce feature should a large B2C retailer use for its consumer account structure?",
+    options: [
+      { id: "A", text: "Individual Accounts" },
+      { id: "B", text: "Account Contact" },
+      { id: "C", text: "Contacts" },
+      { id: "D", text: "Person Accounts" }
+    ],
+    answers: ["D"],
+    explanation: "Person Accounts combine Account and Contact fields in a record for an individual consumer and are the standard Salesforce B2C model."
+  },
+  {
+    prompt: "Universal Containers creates five million Cases a year. Two years must remain in Salesforce for reporting, while Cases from two to seven years old must be available to agents on demand. Which two archiving strategies fit?",
+    options: [
+      { id: "A", text: "Move older Cases to custom objects with a nightly batch" },
+      { id: "B", text: "Synchronize older Cases to an external database and give agents access to it" },
+      { id: "C", text: "Move older Cases to Big Objects with a nightly batch" },
+      { id: "D", text: "Use Heroku and external objects to show older Cases, and hard-delete them from Salesforce with Bulk API" }
+    ],
+    answers: ["C", "D"],
+    explanation: "Big Objects or an external database surfaced through external objects can keep older Cases accessible from Salesforce without using standard data storage."
   }
 ];
