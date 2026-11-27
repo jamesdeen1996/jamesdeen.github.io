@@ -2095,8 +2095,8 @@ window.platformDeveloperPart3Questions = [
       { id: "C", text: "Master-Detail" },
       { id: "D", text: "Indirect Lookup" }
     ],
-    answers: ["C"],
-    explanation: "This answer follows the screenshot and the usual answer for this question, but the logic is debatable. In a master-detail relationship, Line Items inherit their sharing from the Order, so anyone who can see an Order can also see its Line Items. A lookup gives Line Items their own sharing settings, which would be needed to hide them while Orders stay visible."
+    answers: ["A"],
+    explanation: "With a lookup, Line Items keep their own organization-wide default and sharing rules, so they can be Private and shared only within each line of business while Orders stay visible to everyone. In a master-detail relationship, Line Items inherit their sharing from the Order, so anyone who can see an Order would see all of its Line Items. Direct and indirect lookups are for external objects."
   },
   {
     prompt: "In the following example, which sharing context will myMethod execute when it is invoked?\n\npublic Class myClass {\n    public void myMethod() { /* implementation */ }\n}",
